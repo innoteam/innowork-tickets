@@ -3,9 +3,6 @@
 CHANGES:
 - Better layout in tickets list (Alex Pagnoni).
 
-NEW FEATURES:
-- Added opportunities dashboard widget. (Alex Pagnoni)
-
 
 
 1.2 - 2004/07/15
@@ -19,7 +16,7 @@ CHANGES:
 - Optimized code. (Alex Pagnoni)
 
 FIXES:
-- Added missing Wui dispatcher when calling Wui::Build() in ticket messages
+- Added missing Hui dispatcher when calling Hui::Build() in ticket messages
   page. (Alex Pagnoni)
 
 
@@ -30,10 +27,10 @@ NEW FEATURES:
 - Improved speed. (Alex Pagnoni)
 
 CHANGES:
-- Adapted to Innowork Core 2.1 organization. (Alex Pagnoni)
+- Adapted to Xen Core 2.1 organization. (Alex Pagnoni)
 
 FIXES:
-- Fixed undefined variable in InnoworkTicket->_GetSummary() method. (Alex Pagnoni)
+- Fixed undefined variable in XenTicket->_GetSummary() method. (Alex Pagnoni)
 
 
 
