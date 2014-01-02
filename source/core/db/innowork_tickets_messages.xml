@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<database>
+
+    <table name="innowork_tickets_messages">
+        <field  name="id"   type="integer"  notnull="1"/>
+        <field  name="ticketid"   type="integer"  notnull="1"/>
+        <field  name="username"  type="text"  notnull="1"/>
+        <field  name="content"  type="text"/>
+        <field name="creationdate" type="timestamp"/>
+        <!-- field name="reserved" type="boolean"/-->
+        <key    field="id"  type="unique"/>
+    </table>
+
+    <sequence name="innowork_tickets_messages_id_seq"/>
+
+</database>

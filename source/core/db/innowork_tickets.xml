@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<database>
+
+    <table name="innowork_tickets">
+        <field  name="id"   type="integer"  notnull="1"/>
+        <field  name="ownerid"  type="integer"  notnull="1"/>
+        <field  name="customerid"   type="integer"/>
+        <field  name="projectid"  type="integer"/>
+        <field  name="title"    type="text"/>
+        <field  name="description"  type="text"/>
+        <field  name="solution" type="text"/>
+        <field  name="statusid" type="integer"/>
+        <field  name="priorityid"   type="integer"/>
+        <field  name="done" type="boolean"/>
+        <field name="creationdate" type="timestamp"/>
+        <field  name="trashed"  type="boolean"/>
+        <field  name="sourceid"   type="integer"/>
+        <field name="channelid" type="integer"/>
+        <!-- field name="reserved" type="boolean"/-->
+        <key    field="id"  type="unique"/>
+    </table>
+
+    <sequence name="innowork_tickets_id_seq"/>
+
+</database>
