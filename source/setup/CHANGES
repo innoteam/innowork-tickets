@@ -1,0 +1,54 @@
+1.3.1 - 2014/01/08
+------------------
+CHANGES:
+- Removed ACL support. (Alex Pagnoni)
+- Changed some labels. (Alex Pagnoni)
+
+
+
+1.3 - 2008/10/25
+----------------
+CHANGES:
+- Better layout in tickets list (Alex Pagnoni).
+
+
+
+1.2 - 2004/07/15
+----------------
+NEW FEATURES:
+- Added "spent time" field. (Alex Pagnoni)
+- Added ticket channel. (Alex Pagnoni)
+- Added total spent time summary. (Alex Pagnoni)
+
+CHANGES:
+- Optimized code. (Alex Pagnoni)
+
+FIXES:
+- Added missing Hui dispatcher when calling Hui::Build() in ticket messages
+  page. (Alex Pagnoni)
+
+
+
+1.1 - 2003/12/15
+----------------
+NEW FEATURES:
+- Improved speed. (Alex Pagnoni)
+
+CHANGES:
+- Adapted to Xen Core 2.1 organization. (Alex Pagnoni)
+
+FIXES:
+- Fixed undefined variable in XenTicket->_GetSummary() method. (Alex Pagnoni)
+
+
+
+1.0.1 - 2003/10/11
+------------------
+CHANGES:
+- Added Italian localization. (Alex Pagnoni)
+
+
+
+1.0 - 2003/09/30
+----------------
+- First release.

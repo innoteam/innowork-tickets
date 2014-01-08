@@ -1,0 +1,68 @@
+<?xml version='1.0'?>
+<application>
+
+	<definition>
+		<idname>innowork-tickets</idname>
+		<release>
+			<version>1.3.1</version>
+			<date>2014/01/08</date>
+			<changesfile>CHANGES</changesfile>
+		</release>
+		<description>Innowork Tickets</description>
+		<category>intranet</category>
+		<iconfile></iconfile>
+		<dependencies>
+			<dependency>innomatic[6.2]</dependency>
+			<dependency>innowork-core[3.1]</dependency>
+			<dependency>innowork-groupware[2.0]</dependency>
+			<dependency>innowork-projects</dependency>
+		</dependencies>
+		<options>
+			<!-- <option></option> -->
+		</options>
+		<legal>
+			<author>
+				<name>Innoteam Srl</name>
+				<email>info@innoteam.it</email>
+				<web>http://www.innoteam.it/</web>
+			</author>
+			<copyright>Copyright (c) 2003-2014 Innoteam Srl</copyright>
+			<license>Commercial</license>
+			<licensefile>LICENSE</licensefile>
+		</legal>
+		<support>
+			<supportemail>helpdesk@innoteam.it</supportemail>
+			<bugsemail>helpdesk@innoteam.it</bugsemail>
+			<maintainer>
+				<name>Innoteam Srl</name>
+				<email>helpdesk@innoteam.it</email>
+			</maintainer>
+		</support>
+	</definition>
+
+	<components>
+
+		<domaingroup name="support"
+			catalog="innowork-tickets::innoworktickets_misc" />
+
+		<domainpanel name="innoworktickets" file="innoworktickets.php"
+			category="support" themeicon="kword" themeicontype="apps"
+			catalog="innowork-tickets::innoworktickets_misc" />
+
+		<domaintable name="innowork_tickets"
+			file="innowork_tickets.xml" />
+		<domaintable name="innowork_tickets_messages"
+			file="innowork_tickets_messages.xml" />
+
+		<catalog name="innowork-tickets" />
+
+		<class name="innowork/tickets/InnoworkTicket.php" />
+
+		<innoworkitemtype name="ticket" file="ticket"
+			catalog="innowork-tickets::innoworktickets_misc"
+			classfile="innowork/tickets/InnoworkTicket.php" classname="InnoworkTicket" icon="kword"
+			icontype="apps" domainpanel="innoworktickets"
+			miniicon="folder_txt" summaryname="ticket-name" showmode="list" />
+
+	</components>
+</application>
