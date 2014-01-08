@@ -1,3 +1,11 @@
+1.3.1 - 2014/01/08
+------------------
+CHANGES:
+- Removed ACL support. (Alex Pagnoni)
+- Changed some labels. (Alex Pagnoni)
+
+
+
 1.3 - 2008/10/25
 ----------------
 CHANGES:

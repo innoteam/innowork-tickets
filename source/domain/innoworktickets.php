@@ -555,43 +555,43 @@ function main_default($eventData)
 
     $num_tickets = count( $tickets_search );
 
-    $headers[1]['label'] = $gLocale->getStr( 'ticket.header' );
-    $headers[1]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[0]['label'] = $gLocale->getStr( 'ticket.header' );
+    $headers[0]['link'] = WuiEventsCall::buildEventsCallString( '',
             array( array(
                     'view',
                     'default',
                     array( 'sortby' => '1' )
                     ) ) );
-    $headers[2]['label'] = $gLocale->getStr( 'customer.header' );
-    $headers[2]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[1]['label'] = $gLocale->getStr( 'customer.header' );
+    $headers[1]['link'] = WuiEventsCall::buildEventsCallString( '',
             array( array(
                     'view',
                     'default',
                     array( 'sortby' => '2' )
                     ) ) );
-    $headers[3]['label'] = $gLocale->getStr( 'title.header' );
-    $headers[3]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[2]['label'] = $gLocale->getStr( 'title.header' );
+    $headers[2]['link'] = WuiEventsCall::buildEventsCallString( '',
             array( array(
                     'view',
                     'default',
                     array( 'sortby' => '3' )
                     ) ) );
-    $headers[4]['label'] = $gLocale->getStr( 'priority.header' );
-    $headers[4]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[3]['label'] = $gLocale->getStr( 'priority.header' );
+    $headers[3]['link'] = WuiEventsCall::buildEventsCallString( '',
             array( array(
                     'view',
                     'default',
                     array( 'sortby' => '4' )
                     ) ) );
-    $headers[5]['label'] = $gLocale->getStr( 'status.header' );
-    $headers[5]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[4]['label'] = $gLocale->getStr( 'status.header' );
+    $headers[4]['link'] = WuiEventsCall::buildEventsCallString( '',
             array( array(
                     'view',
                     'default',
                     array( 'sortby' => '5' )
                     ) ) );
-    $headers[6]['label'] = $gLocale->getStr( 'source.header' );
-    $headers[6]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[5]['label'] = $gLocale->getStr( 'source.header' );
+    $headers[5]['link'] = WuiEventsCall::buildEventsCallString( '',
             array( array(
                     'view',
                     'default',
@@ -870,13 +870,7 @@ function main_default($eventData)
             $tmp_project_data = $tmp_project->getItem();
 
         $gXml_def .=
-'<button row="'.$row.'" col="0"><name>acl</name>
-  <args>
-    <themeimage>'.$image.'</themeimage>
-    <themeimagetype>mini</themeimagetype>
-  </args>
-</button>
-<horizgroup row="'.$row.'" col="1">
+'<horizgroup row="'.$row.'" col="0">
   <args>
   </args>
   <children>
@@ -912,7 +906,7 @@ function main_default($eventData)
     </link>
   </children>
 </horizgroup>
-<vertgroup row="'.$row.'" col="2" halign="" valign="top">
+<vertgroup row="'.$row.'" col="1" halign="" valign="top">
   <children>
 
 <link><name>customer</name>
@@ -951,27 +945,27 @@ function main_default($eventData)
 
   </children>
 </vertgroup>
-<label row="'.$row.'" col="3">
+<label row="'.$row.'" col="2">
   <args>
     <label>'.tickets_cdata( $ticket['title'] ).'</label>
   </args>
 </label>
-<label row="'.$row.'" col="4">
+<label row="'.$row.'" col="3">
   <args>
     <label>'.tickets_cdata( $priorities[$ticket['priorityid']] ).'</label>
   </args>
 </label>
-<label row="'.$row.'" col="5">
+<label row="'.$row.'" col="4">
   <args>
     <label>'.tickets_cdata( $statuses[$ticket['statusid']] ).'</label>
   </args>
 </label>
-<label row="'.$row.'" col="6">
+<label row="'.$row.'" col="5">
   <args>
     <label>'.tickets_cdata( $sources[$ticket['sourceid']] ).'</label>
   </args>
 </label>
-<innomatictoolbar row="'.$row.'" col="7"><name>tools</name>
+<innomatictoolbar row="'.$row.'" col="6"><name>tools</name>
   <args>
     <frame>false</frame>
     <toolbars type="array">'.WuiXml::encode( array(

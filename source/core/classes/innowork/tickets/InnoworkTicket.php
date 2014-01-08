@@ -9,6 +9,7 @@ class InnoworkTicket extends InnoworkItem
     public $mNewEvent = 'newticket';
     public $mNoTrash = false;
     public $mConvertible = true;
+    public $mNoAcl = true;
     const ITEM_TYPE = 'ticket';
 
     //var $mNoAcl = true;
