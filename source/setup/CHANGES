@@ -6,6 +6,9 @@ FIXES:
 NEW FEATURES:
 - Added "Opened by" and "Assigned to" fields. (Alex Pagnoni)
 
+CHANGES:
+- Added wrap in tickets listing. (Alex Pagnoni)
+
 
 
 1.3.1 - 2014/01/08

@@ -970,6 +970,7 @@ function main_default($eventData)
         ) ).'</link>
     <label>'.tickets_cdata( $tmp_project_data['name'] ).'</label>
     <compact>true</compact>
+    <nowrap>false</nowrap>
   </args>
 </link>
 
@@ -978,21 +979,25 @@ function main_default($eventData)
 <label row="'.$row.'" col="2">
   <args>
     <label>'.tickets_cdata( $ticket['title'] ).'</label>
+    <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="3">
   <args>
     <label>'.tickets_cdata( $priorities[$ticket['priorityid']] ).'</label>
+    <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="4">
   <args>
     <label>'.tickets_cdata( $statuses[$ticket['statusid']] ).'</label>
+    <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="5">
   <args>
     <label>'.tickets_cdata( $sources[$ticket['sourceid']] ).'</label>
+    <nowrap>false</nowrap>
   </args>
 </label>
 <innomatictoolbar row="'.$row.'" col="6"><name>tools</name>
