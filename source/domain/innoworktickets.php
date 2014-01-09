@@ -275,6 +275,8 @@ function main_default($eventData)
                 )
             );
 
+        if ( $eventData['filter_projectid'] != 0 ) $search_keys['projectid'] = $eventData['filter_projectid'];
+        
         // Priority
 
         $priority_filter_sk = new WuiSessionKey(
@@ -352,14 +354,17 @@ function main_default($eventData)
                 )
             );
 
-        // Restrict
-
-        $restrictto_filter_sk = new WuiSessionKey(
-            'restrictto_filter',
-            array(
-                'value' => isset($eventData['filter_restrictto'] ) ? $eventData['filter_restrictto'] : InnoworkItem::SEARCH_RESTRICT_NONE
-                )
-            );
+        // Opened by
+        $openedby_filter_sk = new WuiSessionKey('openedby_filter', array('value' => isset($eventData['filter_openedby']) ? $eventData['filter_openedby'] : ''));
+        if ($eventData['filter_openedby'] != 0) {
+        	$search_keys['openedby'] = $eventData['filter_openedby'];
+        }
+        
+        // Assigned to
+        $assignedto_filter_sk = new WuiSessionKey('assignedto_filter', array('value' => isset($eventData['filter_assignedto']) ? $eventData['filter_assignedto'] : ''));
+        if ($eventData['filter_assignedto'] != 0) {
+        	$search_keys['assignedto'] = $eventData['filter_assignedto'];
+        }
     } else {
         // Customer
 
@@ -433,10 +438,13 @@ function main_default($eventData)
         if ( strlen( $day_filter_sk->mValue ) and $day_filter_sk->mValue != 0 ) $_filter_day = $day_filter_sk->mValue;
         $eventData['filter_day'] = $day_filter_sk->mValue;
 
-        // Restrict
+        // Opened by
+        $openedby_filter_sk = new WuiSessionKey('openedby_filter');
+        $eventData['filter_openedby'] = $openedby_filter_sk->mValue;
 
-        $restrictto_filter_sk = new WuiSessionKey( 'restrictto_filter' );
-        $eventData['filter_restrictto'] = $restrictto_filter_sk->mValue;
+        // Assigned to
+        $assignedto_filter_sk = new WuiSessionKey('assignedto_filter');
+        $eventData['filter_assignedto'] = $assignedto_filter_sk->mValue;
     }
 
     if (
@@ -453,11 +461,20 @@ function main_default($eventData)
             ( ( isset($_filter_day ) and strlen( $_filter_day ) ) ? str_pad( $_filter_day, 2, '0', STR_PAD_LEFT ) : '%' );
     }
 
-    $restrictto_array[InnoworkItem::SEARCH_RESTRICT_NONE] = $gLocale->getStr( 'restrictto_none.label' );
-    $restrictto_array[InnoworkItem::SEARCH_RESTRICT_TO_OWNER] = $gLocale->getStr( 'restrictto_owner.label' );
-    $restrictto_array[InnoworkItem::SEARCH_RESTRICT_TO_RESPONSIBLE] = $gLocale->getStr( 'restrictto_responsible.label' );
-    $restrictto_array[InnoworkItem::SEARCH_RESTRICT_TO_PARTICIPANT] = $gLocale->getStr( 'restrictto_participants.label' );
-
+    $users_query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
+    		'SELECT id,fname,lname '.
+    		'FROM domain_users '.
+    		'WHERE username<>'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->formatText(User::getAdminUsername(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())).' '.
+    		'ORDER BY lname,fname' );
+    
+    $users = array();
+    $users[''] = $gLocale->getStr('filter_allusers.label');
+    
+    while (!$users_query->eof) {
+    	$users[$users_query->getFields('id')] = $users_query->getFields('lname').' '.$users_query->getFields('fname');
+    	$users_query->moveNext();
+    }
+    
     if ( !isset($search_keys ) or !count( $search_keys ) ) $search_keys = '';
 
     // Sorting
@@ -549,8 +566,7 @@ function main_default($eventData)
         false,
         false,
         0,
-        0,
-        $eventData['filter_restrictto']
+        0
         );
 
     $num_tickets = count( $tickets_search );
@@ -709,18 +725,32 @@ function main_default($eventData)
 
         <label row="3" col="0">
           <args>
-            <label>'.$gLocale->getStr( 'restrictto.label' ).'</label>
+            <label>'.$gLocale->getStr('openedby.label').'</label>
           </args>
         </label>
 
-        <combobox row="3" col="1"><name>filter_restrictto</name>
+        <combobox row="3" col="1"><name>filter_openedby</name>
           <args>
             <disp>view</disp>
-            <elements type="array">'.WuiXml::encode( $restrictto_array ).'</elements>
-            <default>'.$eventData['filter_restrictto'].'</default>
+            <elements type="array">'.WuiXml::encode($users).'</elements>
+            <default>'.$eventData['filter_openedby'].'</default>
           </args>
         </combobox>
 
+        <label row="4" col="0">
+          <args>
+            <label>'.$gLocale->getStr('assignedto.label').'</label>
+          </args>
+        </label>
+
+        <combobox row="4" col="1"><name>filter_assignedto</name>
+          <args>
+            <disp>view</disp>
+            <elements type="array">'.WuiXml::encode($users).'</elements>
+            <default>'.$eventData['filter_assignedto'].'</default>
+          </args>
+        </combobox>
+            		
     <label row="0" col="2">
       <args>
         <label>'.$gLocale->getStr( 'filter_priority.label' ).'</label>
@@ -1169,6 +1199,34 @@ function main_showticket(
         $projects[$id] = $fields['name'];
     }
 
+    // "Assigned to" user
+    if ($ticket_data['assignedto'] != '') {
+    	$assignedto_user = $ticket_data['assignedto'];
+    } else {
+    	$assignedto_user = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId();
+    }
+
+    // "Opened by" user
+    if ($ticket_data['openedby'] != '') {
+    	$openedby_user = $ticket_data['openedby'];
+    } else {
+    	$openedby_user = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId();
+    }
+
+    $users_query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
+    		'SELECT id,fname,lname '.
+    		'FROM domain_users '.
+    		'WHERE username<>'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->formatText(User::getAdminUsername(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())).' '.
+    		'ORDER BY lname,fname' );
+    
+    $users = array();
+    $users[0] = $gLocale->getStr('noone.label');
+    
+    while (!$users_query->eof) {
+    	$users[$users_query->getFields('id')] = $users_query->getFields('lname').' '.$users_query->getFields('fname');
+    	$users_query->moveNext();
+    }
+    
     $statuses = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_STATUS );
     $statuses['0'] = $gLocale->getStr( 'nostatus.label' );
 
@@ -1270,6 +1328,36 @@ function main_showticket(
 
                   </children>
                 </horizgroup>
+                        		
+                <horizgroup><args><width>0%</width></args><children>
+
+            <label><name>openedby</name>
+              <args>
+                <label>'.WuiXml::cdata($gLocale->getStr('openedby.label')).'</label>
+              </args>
+            </label>
+            <combobox><name>openedby</name>
+              <args>
+                <disp>action</disp>
+                <elements type="array">'.WuiXml::encode($users).'</elements>
+        		<default>'.$openedby_user.'</default>
+              </args>
+            </combobox>
+                		
+            <label><name>assignedto</name>
+              <args>
+                <label>'.WuiXml::cdata($gLocale->getStr('assignedto.label')).'</label>
+              </args>
+            </label>
+            <combobox><name>assignedto</name>
+              <args>
+                <disp>action</disp>
+                <elements type="array">'.WuiXml::encode($users).'</elements>
+        		<default>'.$assignedto_user.'</default>
+              </args>
+            </combobox>
+                		
+                </children></horizgroup>
 
                 <horizgroup>
                   <args>
@@ -1339,7 +1427,7 @@ function main_showticket(
 
                 <horizbar/>
 
-                <horizgroup>
+                <horizgroup><args><width>0%</width></args>
                   <children>
 
                     <label>
