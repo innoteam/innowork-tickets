@@ -4,8 +4,8 @@
 	<definition>
 		<idname>innowork-tickets</idname>
 		<release>
-			<version>1.3.1</version>
-			<date>2014/01/08</date>
+			<version>1.4.0</version>
+			<date>2014/01/10</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description>Innowork Tickets</description>
@@ -64,5 +64,13 @@
 			icontype="apps" domainpanel="innoworktickets"
 			miniicon="folder_txt" summaryname="ticket-name" showmode="list" />
 
+        <dashboardwidget
+            name="innoworkmytickets"
+            panel="tickets"
+            file="InnoworkMyTicketsDashboardWidget.php"
+            catalog="innowork-tickets::innoworktickets_dashboard"
+            title="mytickets"
+            class="\\Shared\\Dashboard\\InnoworkMyTicketsDashboardWidget" />
+            
 	</components>
 </application>

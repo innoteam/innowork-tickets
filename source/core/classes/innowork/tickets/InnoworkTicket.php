@@ -31,6 +31,8 @@ class InnoworkTicket extends InnoworkItem
         $this->mKeys['channelid'] = 'table:innowork_projects_fields_values:fieldvalue:integer';
         $this->mKeys['creationdate'] = 'timestamp';
         $this->mKeys['done'] = 'boolean';
+        $this->mKeys['openedby'] = 'integer';
+        $this->mKeys['assignedto'] = 'integer';
 
         $this->mSearchResultKeys[] = 'title';
         $this->mSearchResultKeys[] = 'projectid';
@@ -41,7 +43,9 @@ class InnoworkTicket extends InnoworkItem
         $this->mSearchResultKeys[] = 'channelid';
         $this->mSearchResultKeys[] = 'creationdate';
         $this->mSearchResultKeys[] = 'done';
-
+        $this->mSearchResultKeys[] = 'openedby';
+        $this->mSearchResultKeys[] = 'assignedto';
+        
         $this->mViewableSearchResultKeys[] = 'id';
         $this->mViewableSearchResultKeys[] = 'title';
         $this->mViewableSearchResultKeys[] = 'projectid';
@@ -51,6 +55,8 @@ class InnoworkTicket extends InnoworkItem
         $this->mViewableSearchResultKeys[] = 'sourceid';
         $this->mViewableSearchResultKeys[] = 'channelid';
         $this->mViewableSearchResultKeys[] = 'creationdate';
+        $this->mViewableSearchResultKeys[] = 'openedby';
+        $this->mViewableSearchResultKeys[] = 'assignedto';
 
         $this->mSearchOrderBy = 'id DESC';
         $this->mShowDispatcher = 'view';
@@ -103,9 +109,15 @@ class InnoworkTicket extends InnoworkItem
                 or !strlen( $params['channelid'] )
                 ) $params['channelid'] = '0';
 
-        if ( count( $params ) ) {
-
-
+            if (!isset($params['openedby']) or !strlen($params['openedby'])) {
+            	$params['openedby'] = '0';
+            }
+            
+            if (!isset($params['assignedto']) or !strlen($params['assignedto'])) {
+            	$params['assignedto'] = '0';
+            }
+                        
+        if (count($params)) {
             $item_id = $this->mrDomainDA->getNextSequenceValue( $this->mTable.'_id_seq' );
 
             $params['trashed'] = $this->mrDomainDA->fmtfalse;
@@ -148,6 +160,8 @@ class InnoworkTicket extends InnoworkItem
                 case 'priorityid':
                 case 'sourceid':
                 case 'channelid':
+                case 'openedby':
+                case 'assignedto':
                     if ( !strlen( $key ) ) $key = 0;
                     $keys .= $key_pre.$key;
                     $values .= $value_pre.$val;
@@ -219,7 +233,9 @@ class InnoworkTicket extends InnoworkItem
                         case 'priorityid':
                         case 'sourceid':
                         case 'channelid':
-                            if ( !strlen( $value ) ) $value = 0;
+                		case 'openedby':
+                		case 'assignedto':
+                        	if ( !strlen( $value ) ) $value = 0;
                             if ( !$start ) $update_str .= ',';
                             $update_str .= $field.'='.$value;
                             $start = 0;
