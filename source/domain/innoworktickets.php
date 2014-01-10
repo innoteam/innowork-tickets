@@ -13,12 +13,7 @@ require_once('innomatic/wui/dispatch/WuiEventRawData.php');
 require_once('innomatic/wui/dispatch/WuiDispatcher.php');
 require_once('innomatic/locale/LocaleCatalog.php'); require_once('innomatic/locale/LocaleCountry.php');
 
-    global $gLocale, $gPage_title, $gXml_def, $gPage_status, $gToolbars, $gInnowork_core, $customers;
-
-function tickets_cdata($data)
-{
-    return '<![CDATA['.$data.']]>';
-}
+global $gLocale, $gPage_title, $gXml_def, $gPage_status, $gToolbars, $gInnowork_core, $customers;
 
 require_once('innowork/core/InnoworkCore.php');
 $gInnowork_core = InnoworkCore::instance('innoworkcore',
@@ -32,10 +27,10 @@ $gLocale = new LocaleCatalog(
     );
 
 $gWui = Wui::instance('wui');
-$gWui->loadWidget( 'xml' );
-$gWui->loadWidget( 'innomaticpage' );
-$gWui->loadWidget( 'innomatictoolbar' );
-$gWui->loadWidget( 'table' );
+$gWui->loadWidget('xml');
+$gWui->loadWidget('innomaticpage');
+$gWui->loadWidget('innomatictoolbar');
+$gWui->loadWidget('table');
 
 // Companies
 
@@ -48,47 +43,47 @@ $search_results = $innowork_companies->Search(
     '',
     \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId()
     );
-$customers[0] = $gLocale->getStr( 'nocustomer.label' );
+$customers[0] = $gLocale->getStr('nocustomer.label');
 while ( list( $id, $fields ) = each( $search_results ) ) {
     $customers[$id] = $fields['companyname'];
 }
 
 $gXml_def = $gPage_status = '';
-$gPage_title = $gLocale->getStr( 'tickets.title' );
+$gPage_title = $gLocale->getStr('tickets.title');
 $gCore_toolbars = $gInnowork_core->getMainToolBar();
 $gToolbars['mail'] = array(
     'tickets' => array(
-        'label' => $gLocale->getStr( 'tickets.toolbar' ),
+        'label' => $gLocale->getStr('tickets.toolbar'),
         'themeimage' => 'listbulletleft',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString( '', array( array(
+        'action' => WuiEventsCall::buildEventsCallString('', array( array(
             'view',
             'default',
-            array( 'done' => 'false' ) ) ) )
+            array('done' => 'false') ) ) )
         ),
     'donetickets' => array(
-        'label' => $gLocale->getStr( 'donetickets.toolbar' ),
+        'label' => $gLocale->getStr('donetickets.toolbar'),
         'themeimage' => 'drawer',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString( '', array( array(
+        'action' => WuiEventsCall::buildEventsCallString('', array( array(
             'view',
             'default',
-            array( 'done' => 'true' ) ) ) )
+            array('done' => 'true') ) ) )
         ),
     'newticket' => array(
-        'label' => $gLocale->getStr( 'newticket.toolbar' ),
+        'label' => $gLocale->getStr('newticket.toolbar'),
         'themeimage' => 'mathadd',
         'horiz' => 'true',
-        'action' => WuiEventsCall::buildEventsCallString( '', array( array(
+        'action' => WuiEventsCall::buildEventsCallString('', array( array(
             'view',
             'newticket',
-            '' ) ) )
+            '') ) )
         )
     );
 
 // ----- Action dispatcher -----
 //
-$gAction_disp = new WuiDispatcher( 'action' );
+$gAction_disp = new WuiDispatcher('action');
 
 //$GLOBALS['innowork-billing']['newinvoiceid'] = $innowork_project->mItemId;
 
@@ -109,8 +104,8 @@ function action_newticket(
 
     if ( $ticket->Create( $eventData ) ) {
         $GLOBALS['innowork-tickets']['newticketid'] = $ticket->mItemId;
-        $gPage_status = $gLocale->getStr( 'ticket_created.status' );
-    } else $gPage_status = $gLocale->getStr( 'ticket_not_created.status' );
+        $gPage_status = $gLocale->getStr('ticket_created.status');
+    } else $gPage_status = $gLocale->getStr('ticket_not_created.status');
 }
 
 $gAction_disp->addEvent(
@@ -129,8 +124,8 @@ function action_editticket(
         $eventData['id']
         );
 
-    if ( $ticket->Edit( $eventData ) ) $gPage_status = $gLocale->getStr( 'ticket_updated.status' );
-    else $gPage_status = $gLocale->getStr( 'ticket_not_updated.status' );
+    if ( $ticket->Edit( $eventData ) ) $gPage_status = $gLocale->getStr('ticket_updated.status');
+    else $gPage_status = $gLocale->getStr('ticket_not_updated.status');
 }
 
 $gAction_disp->addEvent(
@@ -149,8 +144,8 @@ function action_trashticket(
         $eventData['id']
         );
 
-    if ( $ticket->Trash( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId() ) ) $gPage_status = $gLocale->getStr( 'ticket_trashed.status' );
-    else $gPage_status = $gLocale->getStr( 'ticket_not_trashed.status' );
+    if ( $ticket->Trash( \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId() ) ) $gPage_status = $gLocale->getStr('ticket_trashed.status');
+    else $gPage_status = $gLocale->getStr('ticket_not_trashed.status');
 }
 
 $gAction_disp->addEvent(
@@ -174,8 +169,8 @@ function action_newmessage(
             $eventData['content']
             ) )
     {
-        $gPage_status = $gLocale->getStr( 'message_created.status' );
-    } else $gPage_status = $gLocale->getStr( 'message_not_created.status' );
+        $gPage_status = $gLocale->getStr('message_created.status');
+    } else $gPage_status = $gLocale->getStr('message_not_created.status');
 }
 
 $gAction_disp->addEvent(
@@ -194,22 +189,22 @@ function action_removemessage(
         $eventData['ticketid']
         );
 
-    if ( $ticket->RemoveMessage( $eventData['messageid'] ) ) $gPage_status = $gLocale->getStr( 'message_removed.status' );
-    else $gPage_status = $gLocale->getStr( 'message_not_removed.status' );
+    if ( $ticket->RemoveMessage( $eventData['messageid'] ) ) $gPage_status = $gLocale->getStr('message_removed.status');
+    else $gPage_status = $gLocale->getStr('message_not_removed.status');
 }
 
 $gAction_disp->Dispatch();
 
 // ----- Main dispatcher -----
 //
-$gMain_disp = new WuiDispatcher( 'view' );
+$gMain_disp = new WuiDispatcher('view');
 
 function tickets_list_action_builder($pageNumber)
 {
-    return WuiEventsCall::buildEventsCallString( '', array( array(
+    return WuiEventsCall::buildEventsCallString('', array( array(
             'view',
             'default',
-            array( 'pagenumber' => $pageNumber )
+            array('pagenumber' => $pageNumber )
         ) ) );
 }
 
@@ -232,25 +227,25 @@ function main_default($eventData)
         \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId()
         );
 
-    $projects['0'] = $gLocale->getStr( 'allprojects.label' );
+    $projects['0'] = $gLocale->getStr('allprojects.label');
     while ( list( $id, $fields ) = each( $search_results ) ) {
         $projects[$id] = $fields['name'];
     }
 
     $customers_filter = $customer;
-    $customers_filter[0] = $gLocale->getStr( 'allcustomers.label' );
+    $customers_filter[0] = $gLocale->getStr('allcustomers.label');
 
     $statuses = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_STATUS );
-    $statuses['0'] = $gLocale->getStr( 'allstatuses.label' );
+    $statuses['0'] = $gLocale->getStr('allstatuses.label');
 
     $priorities = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_PRIORITY );
-    $priorities['0'] = $gLocale->getStr( 'allpriorities.label' );
+    $priorities['0'] = $gLocale->getStr('allpriorities.label');
 
     $sources = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_SOURCE );
-    $sources['0'] = $gLocale->getStr( 'allsources.label' );
+    $sources['0'] = $gLocale->getStr('allsources.label');
 
     $channels = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_CHANNEL );
-    $channels['0'] = $gLocale->getStr( 'allchannels.label' );
+    $channels['0'] = $gLocale->getStr('allchannels.label');
 
     // Filtering
 
@@ -368,7 +363,7 @@ function main_default($eventData)
     } else {
         // Customer
 
-        $customer_filter_sk = new WuiSessionKey( 'customer_filter' );
+        $customer_filter_sk = new WuiSessionKey('customer_filter');
         if (
             strlen( $customer_filter_sk->mValue )
             and $customer_filter_sk->mValue != 0
@@ -377,7 +372,7 @@ function main_default($eventData)
 
         // Project
 
-        $project_filter_sk = new WuiSessionKey( 'project_filter' );
+        $project_filter_sk = new WuiSessionKey('project_filter');
         if (
             strlen( $project_filter_sk->mValue )
             and $project_filter_sk->mValue != 0
@@ -386,7 +381,7 @@ function main_default($eventData)
 
         // Priority
 
-        $priority_filter_sk = new WuiSessionKey( 'priority_filter' );
+        $priority_filter_sk = new WuiSessionKey('priority_filter');
         if (
             strlen( $priority_filter_sk->mValue )
             and $priority_filter_sk->mValue != 0
@@ -395,7 +390,7 @@ function main_default($eventData)
 
         // Status
 
-        $status_filter_sk = new WuiSessionKey( 'status_filter' );
+        $status_filter_sk = new WuiSessionKey('status_filter');
         if (
             strlen( $status_filter_sk->mValue )
             and $status_filter_sk->mValue != 0
@@ -404,7 +399,7 @@ function main_default($eventData)
 
         // Source
 
-        $source_filter_sk = new WuiSessionKey( 'source_filter' );
+        $source_filter_sk = new WuiSessionKey('source_filter');
         if (
             strlen( $source_filter_sk->mValue )
             and $source_filter_sk->mValue != 0
@@ -413,7 +408,7 @@ function main_default($eventData)
 
         // Channel
 
-        $channel_filter_sk = new WuiSessionKey( 'channel_filter' );
+        $channel_filter_sk = new WuiSessionKey('channel_filter');
         if (
             strlen( $channel_filter_sk->mValue )
             and $channel_filter_sk->mValue != 0
@@ -422,19 +417,19 @@ function main_default($eventData)
 
         // Year
 
-        $year_filter_sk = new WuiSessionKey( 'year_filter' );
+        $year_filter_sk = new WuiSessionKey('year_filter');
         if ( strlen( $year_filter_sk->mValue ) and $year_filter_sk->mValue != 0 ) $_filter_year = $year_filter_sk->mValue;
         $eventData['filter_year'] = $year_filter_sk->mValue;
 
         // Month
 
-        $month_filter_sk = new WuiSessionKey( 'month_filter' );
+        $month_filter_sk = new WuiSessionKey('month_filter');
         if ( strlen( $month_filter_sk->mValue ) and $month_filter_sk->mValue != 0 ) $_filter_month = $month_filter_sk->mValue;
         $eventData['filter_month'] = $month_filter_sk->mValue;
 
         // Day
 
-        $day_filter_sk = new WuiSessionKey( 'day_filter' );
+        $day_filter_sk = new WuiSessionKey('day_filter');
         if ( strlen( $day_filter_sk->mValue ) and $day_filter_sk->mValue != 0 ) $_filter_day = $day_filter_sk->mValue;
         $eventData['filter_day'] = $day_filter_sk->mValue;
 
@@ -456,16 +451,16 @@ function main_default($eventData)
        )
     {
         $search_keys['creationdate'] =
-            ( ( isset($_filter_year ) and strlen( $_filter_year ) ) ? str_pad( $_filter_year, 4, '0', STR_PAD_LEFT ) : '%' ).'-'.
-            ( ( isset($_filter_month ) and strlen( $_filter_month ) ) ? str_pad( $_filter_month, 2, '0', STR_PAD_LEFT ) : '%' ).'-'.
-            ( ( isset($_filter_day ) and strlen( $_filter_day ) ) ? str_pad( $_filter_day, 2, '0', STR_PAD_LEFT ) : '%' );
+            ( ( isset($_filter_year ) and strlen( $_filter_year ) ) ? str_pad( $_filter_year, 4, '0', STR_PAD_LEFT ) : '%').'-'.
+            ( ( isset($_filter_month ) and strlen( $_filter_month ) ) ? str_pad( $_filter_month, 2, '0', STR_PAD_LEFT ) : '%').'-'.
+            ( ( isset($_filter_day ) and strlen( $_filter_day ) ) ? str_pad( $_filter_day, 2, '0', STR_PAD_LEFT ) : '%');
     }
 
     $users_query = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->execute(
     		'SELECT id,fname,lname '.
     		'FROM domain_users '.
     		'WHERE username<>'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->formatText(User::getAdminUsername(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())).' '.
-    		'ORDER BY lname,fname' );
+    		'ORDER BY lname,fname');
     
     $users = array();
     $users[''] = $gLocale->getStr('filter_allusers.label');
@@ -479,7 +474,7 @@ function main_default($eventData)
 
     // Sorting
 
-    $tab_sess = new WuiSessionKey( 'innoworkticketstab' );
+    $tab_sess = new WuiSessionKey('innoworkticketstab');
 
     if ( !isset($eventData['done'] ) ) $eventData['done'] = $tab_sess->mValue;
     if ( !strlen( $eventData['done'] ) ) $eventData['done'] = 'false';
@@ -497,7 +492,7 @@ function main_default($eventData)
 
     $summaries = $gInnowork_core->getSummaries();
 
-    $table = new WuiTable( 'tickets_done_'.$eventData['done'], array(
+    $table = new WuiTable('tickets_done_'.$eventData['done'], array(
         'sessionobjectusername' => $eventData['done'] == 'true' ? 'done' : 'undone'
         ) );
     $sort_by = 0;
@@ -523,28 +518,28 @@ function main_default($eventData)
 
     switch ( $sort_by ) {
     case '1':
-        $tickets->mSearchOrderBy = 'id'.( $sort_order == 'up' ? ' DESC' : '' );
+        $tickets->mSearchOrderBy = 'id'.( $sort_order == 'up' ? ' DESC' : '');
         break;
     case '2':
-        $tickets->mSearchOrderBy = 'customerid'.( $sort_order == 'up' ? ' DESC' : '' );
+        $tickets->mSearchOrderBy = 'customerid'.( $sort_order == 'up' ? ' DESC' : '');
         break;
     case '3':
-        $tickets->mSearchOrderBy = 'title'.( $sort_order == 'up' ? ' DESC' : '' );
+        $tickets->mSearchOrderBy = 'title'.( $sort_order == 'up' ? ' DESC' : '');
         break;
     case '4':
-        $tickets->mSearchOrderBy = 'openedby'.( $sort_order == 'up' ? ' DESC' : '' );
+        $tickets->mSearchOrderBy = 'openedby'.( $sort_order == 'up' ? ' DESC' : '');
         break;
     case '5':
-        $tickets->mSearchOrderBy = 'assignedto'.( $sort_order == 'up' ? ' DESC' : '' );
+        $tickets->mSearchOrderBy = 'assignedto'.( $sort_order == 'up' ? ' DESC' : '');
         break;
     case '6':
-        $tickets->mSearchOrderBy = 'priorityid'.( $sort_order == 'up' ? ' DESC' : '' );
+        $tickets->mSearchOrderBy = 'priorityid'.( $sort_order == 'up' ? ' DESC' : '');
         break;
     case '7':
-        $tickets->mSearchOrderBy = 'statusid'.( $sort_order == 'up' ? ' DESC' : '' );
+        $tickets->mSearchOrderBy = 'statusid'.( $sort_order == 'up' ? ' DESC' : '');
         break;
     case '8':
-        $tickets->mSearchOrderBy = 'sourceid'.( $sort_order == 'up' ? ' DESC' : '' );
+        $tickets->mSearchOrderBy = 'sourceid'.( $sort_order == 'up' ? ' DESC' : '');
         break;
     }
 
@@ -577,26 +572,26 @@ function main_default($eventData)
 
     $num_tickets = count( $tickets_search );
 
-    $headers[0]['label'] = $gLocale->getStr( 'ticket.header' );
-    $headers[0]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[0]['label'] = $gLocale->getStr('ticket.header');
+    $headers[0]['link'] = WuiEventsCall::buildEventsCallString('',
             array( array(
                     'view',
                     'default',
-                    array( 'sortby' => '1' )
+                    array('sortby' => '1')
                     ) ) );
-    $headers[1]['label'] = $gLocale->getStr( 'customer.header' );
-    $headers[1]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[1]['label'] = $gLocale->getStr('customer.header');
+    $headers[1]['link'] = WuiEventsCall::buildEventsCallString('',
             array( array(
                     'view',
                     'default',
-                    array( 'sortby' => '2' )
+                    array('sortby' => '2')
                     ) ) );
-    $headers[2]['label'] = $gLocale->getStr( 'title.header' );
-    $headers[2]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[2]['label'] = $gLocale->getStr('title.header');
+    $headers[2]['link'] = WuiEventsCall::buildEventsCallString('',
             array( array(
                     'view',
                     'default',
-                    array( 'sortby' => '3' )
+                    array('sortby' => '3')
                     ) ) );
     $headers[3]['label'] = $gLocale->getStr('openedby.header');
     $headers[3]['link'] = WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('sortby' => '4'))));
@@ -604,26 +599,26 @@ function main_default($eventData)
     $headers[4]['label'] = $gLocale->getStr('assignedto.header');
     $headers[4]['link'] = WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('sortby' => '5'))));
     
-    $headers[5]['label'] = $gLocale->getStr( 'priority.header' );
-    $headers[5]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[5]['label'] = $gLocale->getStr('priority.header');
+    $headers[5]['link'] = WuiEventsCall::buildEventsCallString('',
             array( array(
                     'view',
                     'default',
-                    array( 'sortby' => '6' )
+                    array('sortby' => '6')
                     ) ) );
-    $headers[6]['label'] = $gLocale->getStr( 'status.header' );
-    $headers[6]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[6]['label'] = $gLocale->getStr('status.header');
+    $headers[6]['link'] = WuiEventsCall::buildEventsCallString('',
             array( array(
                     'view',
                     'default',
-                    array( 'sortby' => '7' )
+                    array('sortby' => '7')
                     ) ) );
-    $headers[7]['label'] = $gLocale->getStr( 'source.header' );
-    $headers[7]['link'] = WuiEventsCall::buildEventsCallString( '',
+    $headers[7]['label'] = $gLocale->getStr('source.header');
+    $headers[7]['link'] = WuiEventsCall::buildEventsCallString('',
             array( array(
                     'view',
                     'default',
-                    array( 'sortby' => '8' )
+                    array('sortby' => '8')
                     ) ) );
 
     $gXml_def =
@@ -634,13 +629,13 @@ function main_default($eventData)
     <label><name>filter</name>
       <args>
         <bold>true</bold>
-        <label>'.$gLocale->getStr( 'filter.label' ).'</label>
+        <label>'.$gLocale->getStr('filter.label').'</label>
       </args>
     </label>
 
     <form><name>filter</name>
       <args>
-            <action>'.tickets_cdata( WuiEventsCall::buildEventsCallString( '', array(
+            <action>'.WuiXml::cdata( WuiEventsCall::buildEventsCallString('', array(
                 array(
                     'view',
                     'default',
@@ -657,7 +652,7 @@ function main_default($eventData)
 
     <label row="0" col="0">
       <args>
-        <label>'.$gLocale->getStr( 'filter_date.label' ).'</label>
+        <label>'.$gLocale->getStr('filter_date.label').'</label>
       </args>
     </label>
     <horizgroup row="0" col="1">
@@ -667,7 +662,7 @@ function main_default($eventData)
       <args>
         <disp>view</disp>
         <size>2</size>
-        <value>'.( isset($eventData['filter_day'] ) ? $eventData['filter_day'] : '' ).'</value>
+        <value>'.( isset($eventData['filter_day'] ) ? $eventData['filter_day'] : '').'</value>
       </args>
     </string>
 
@@ -675,7 +670,7 @@ function main_default($eventData)
       <args>
         <disp>view</disp>
         <size>2</size>
-        <value>'.( isset($eventData['filter_month'] ) ? $eventData['filter_month'] : '' ).'</value>
+        <value>'.( isset($eventData['filter_month'] ) ? $eventData['filter_month'] : '').'</value>
       </args>
     </string>
 
@@ -683,7 +678,7 @@ function main_default($eventData)
       <args>
         <disp>view</disp>
         <size>4</size>
-        <value>'.( isset($eventData['filter_year'] ) ? $eventData['filter_year'] : '' ).'</value>
+        <value>'.( isset($eventData['filter_year'] ) ? $eventData['filter_year'] : '').'</value>
       </args>
     </string>
 
@@ -696,8 +691,8 @@ function main_default($eventData)
             <horiz>true</horiz>
             <frame>false</frame>
             <formsubmit>filter</formsubmit>
-            <label>'.$gLocale->getStr( 'filter.button' ).'</label>
-            <action>'.tickets_cdata( WuiEventsCall::buildEventsCallString( '', array(
+            <label>'.$gLocale->getStr('filter.button').'</label>
+            <action>'.WuiXml::cdata( WuiEventsCall::buildEventsCallString('', array(
                 array(
                     'view',
                     'default',
@@ -711,27 +706,27 @@ function main_default($eventData)
 
     <label row="1" col="0"><name>customer</name>
       <args>
-        <label>'.$gLocale->getStr( 'filter_customer.label' ).'</label>
+        <label>'.$gLocale->getStr('filter_customer.label').'</label>
       </args>
     </label>
     <combobox row="1" col="1"><name>filter_customerid</name>
       <args>
         <disp>view</disp>
         <elements type="array">'.WuiXml::encode( $customers_filter ).'</elements>
-        <default>'.( isset($eventData['filter_customerid'] ) ? $eventData['filter_customerid'] : '' ).'</default>
+        <default>'.( isset($eventData['filter_customerid'] ) ? $eventData['filter_customerid'] : '').'</default>
       </args>
     </combobox>
 
     <label row="2" col="0"><name>project</name>
       <args>
-        <label>'.$gLocale->getStr( 'filter_project.label' ).'</label>
+        <label>'.$gLocale->getStr('filter_project.label').'</label>
       </args>
     </label>
     <combobox row="2" col="1"><name>filter_projectid</name>
       <args>
         <disp>view</disp>
         <elements type="array">'.WuiXml::encode( $projects ).'</elements>
-        <default>'.( isset($eventData['filter_projectid'] ) ? $eventData['filter_projectid'] : '' ).'</default>
+        <default>'.( isset($eventData['filter_projectid'] ) ? $eventData['filter_projectid'] : '').'</default>
       </args>
     </combobox>
 
@@ -765,53 +760,53 @@ function main_default($eventData)
             		
     <label row="0" col="2">
       <args>
-        <label>'.$gLocale->getStr( 'filter_priority.label' ).'</label>
+        <label>'.$gLocale->getStr('filter_priority.label').'</label>
       </args>
     </label>
     <combobox row="0" col="3"><name>filter_priorityid</name>
       <args>
         <disp>view</disp>
         <elements type="array">'.WuiXml::encode( $priorities ).'</elements>
-        <default>'.( isset($eventData['filter_priorityid'] ) ? $eventData['filter_priorityid'] : '' ).'</default>
+        <default>'.( isset($eventData['filter_priorityid'] ) ? $eventData['filter_priorityid'] : '').'</default>
       </args>
     </combobox>
 
     <label row="1" col="2">
       <args>
-        <label>'.$gLocale->getStr( 'filter_status.label' ).'</label>
+        <label>'.$gLocale->getStr('filter_status.label').'</label>
       </args>
     </label>
     <combobox row="1" col="3"><name>filter_statusid</name>
       <args>
         <disp>view</disp>
         <elements type="array">'.WuiXml::encode( $statuses ).'</elements>
-        <default>'.( isset($eventData['filter_statusid'] ) ? $eventData['filter_statusid'] : '' ).'</default>
+        <default>'.( isset($eventData['filter_statusid'] ) ? $eventData['filter_statusid'] : '').'</default>
       </args>
     </combobox>
 
     <label row="2" col="2">
       <args>
-        <label>'.$gLocale->getStr( 'filter_source.label' ).'</label>
+        <label>'.$gLocale->getStr('filter_source.label').'</label>
       </args>
     </label>
     <combobox row="2" col="3"><name>filter_sourceid</name>
       <args>
         <disp>view</disp>
         <elements type="array">'.WuiXml::encode( $sources ).'</elements>
-        <default>'.( isset($eventData['filter_sourceid'] ) ? $eventData['filter_sourceid'] : '' ).'</default>
+        <default>'.( isset($eventData['filter_sourceid'] ) ? $eventData['filter_sourceid'] : '').'</default>
       </args>
     </combobox>
 
     <label row="3" col="2">
       <args>
-        <label>'.$gLocale->getStr( 'filter_channel.label' ).'</label>
+        <label>'.$gLocale->getStr('filter_channel.label').'</label>
       </args>
     </label>
     <combobox row="3" col="3"><name>filter_channelid</name>
       <args>
         <disp>view</disp>
         <elements type="array">'.WuiXml::encode( $channels ).'</elements>
-        <default>'.( isset($eventData['filter_channelid'] ) ? $eventData['filter_channelid'] : '' ).'</default>
+        <default>'.( isset($eventData['filter_channelid'] ) ? $eventData['filter_channelid'] : '').'</default>
       </args>
     </combobox>
 
@@ -828,7 +823,7 @@ function main_default($eventData)
         <bold>true</bold>
         <label>'.( $gLocale->getStr(
             ( isset($eventData['done'] )
-            and $eventData['done'] == 'true' ) ? 'donetickets.label' : 'tickets.label' ) ).'</label>
+            and $eventData['done'] == 'true') ? 'donetickets.label' : 'tickets.label') ).'</label>
       </args>
     </label>
 
@@ -837,8 +832,8 @@ function main_default($eventData)
         <headers type="array">'.WuiXml::encode( $headers ).'</headers>
         <rowsperpage>15</rowsperpage>
         <pagesactionfunction>tickets_list_action_builder</pagesactionfunction>
-        <pagenumber>'.( isset($eventData['pagenumber'] ) ? $eventData['pagenumber'] : '' ).'</pagenumber>
-        <sessionobjectusername>'.( $eventData['done'] == 'true' ? 'done' : 'undone' ).'</sessionobjectusername>
+        <pagenumber>'.( isset($eventData['pagenumber'] ) ? $eventData['pagenumber'] : '').'</pagenumber>
+        <sessionobjectusername>'.( $eventData['done'] == 'true' ? 'done' : 'undone').'</sessionobjectusername>
         <sortby>'.$sort_by.'</sortby>
         <sortdirection>'.$sort_order.'</sortdirection>
         <rows>'.$num_tickets.'</rows>
@@ -848,16 +843,16 @@ function main_default($eventData)
     $row = 0;
 
     $statuses = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_STATUS );
-    $statuses['0'] = $gLocale->getStr( 'nostatus.label' );
+    $statuses['0'] = $gLocale->getStr('nostatus.label');
 
     $priorities = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_PRIORITY );
-    $priorities['0'] = $gLocale->getStr( 'nopriority.label' );
+    $priorities['0'] = $gLocale->getStr('nopriority.label');
 
     $sources = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_SOURCE );
-    $sources['0'] = $gLocale->getStr( 'nosource.label' );
+    $sources['0'] = $gLocale->getStr('nosource.label');
 
     $channels = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_CHANNEL );
-    $channels['0'] = $gLocale->getStr( 'nochannel.label' );
+    $channels['0'] = $gLocale->getStr('nochannel.label');
 
     $page = 1;
 
@@ -921,7 +916,7 @@ function main_default($eventData)
   <children>
     <link>
       <args>
-        <label>'.tickets_cdata($ticket['id'].
+        <label>'.WuiXml::cdata($ticket['id'].
             ' - '.
             $country->FormatShortArrayDate(
                 \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->getDateArrayFromTimestamp(
@@ -933,7 +928,7 @@ function main_default($eventData)
                 )
             ).'</label>
         <compact>true</compact>
-        <link>'.tickets_cdata(
+        <link>'.WuiXml::cdata(
             WuiEventsCall::buildEventsCallString(
                 '',
                 array(
@@ -956,34 +951,34 @@ function main_default($eventData)
 
 <link><name>customer</name>
   <args>
-    <link>'.tickets_cdata( WuiEventsCall::buildEventsCallString(
+    <link>'.WuiXml::cdata( WuiEventsCall::buildEventsCallString(
         $summaries['directorycompany']['domainpanel'],
         array(
             array(
                 $summaries['directorycompany']['showdispatcher'],
                 $summaries['directorycompany']['showevent'],
-                array( 'id' => $ticket['customerid'] )
+                array('id' => $ticket['customerid'] )
                 )
             )
         ) ).'</link>
-    <label>'.tickets_cdata( '<strong>'.$tmp_customer_data['companyname'].'</strong>' ).'</label>
+    <label>'.WuiXml::cdata('<strong>'.$tmp_customer_data['companyname'].'</strong>').'</label>
     <compact>true</compact>
   </args>
 </link>
 
 <link><name>project</name>
   <args>
-    <link>'.tickets_cdata( WuiEventsCall::buildEventsCallString(
+    <link>'.WuiXml::cdata( WuiEventsCall::buildEventsCallString(
         $summaries['project']['domainpanel'],
         array(
             array(
                 $summaries['project']['showdispatcher'],
                 $summaries['project']['showevent'],
-                array( 'id' => $ticket['projectid'] )
+                array('id' => $ticket['projectid'] )
                 )
             )
         ) ).'</link>
-    <label>'.tickets_cdata( $tmp_project_data['name'] ).'</label>
+    <label>'.WuiXml::cdata( $tmp_project_data['name'] ).'</label>
     <compact>true</compact>
     <nowrap>false</nowrap>
   </args>
@@ -993,37 +988,37 @@ function main_default($eventData)
 </vertgroup>
 <label row="'.$row.'" col="2">
   <args>
-    <label>'.tickets_cdata( $ticket['title'] ).'</label>
+    <label>'.WuiXml::cdata( $ticket['title'] ).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="3">
   <args>
-    <label>'.tickets_cdata($users[$ticket['openedby']]).'</label>
+    <label>'.WuiXml::cdata($users[$ticket['openedby']]).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="4">
   <args>
-    <label>'.tickets_cdata($users[$ticket['assignedto']]).'</label>
+    <label>'.WuiXml::cdata($users[$ticket['assignedto']]).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="5">
   <args>
-    <label>'.tickets_cdata( $priorities[$ticket['priorityid']] ).'</label>
+    <label>'.WuiXml::cdata( $priorities[$ticket['priorityid']] ).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="6">
   <args>
-    <label>'.tickets_cdata( $statuses[$ticket['statusid']] ).'</label>
+    <label>'.WuiXml::cdata( $statuses[$ticket['statusid']] ).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="7">
   <args>
-    <label>'.tickets_cdata( $sources[$ticket['sourceid']] ).'</label>
+    <label>'.WuiXml::cdata( $sources[$ticket['sourceid']] ).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
@@ -1033,19 +1028,19 @@ function main_default($eventData)
     <toolbars type="array">'.WuiXml::encode( array(
         'view' => array(
             'show' => array(
-                'label' => $gLocale->getStr( 'showticket.button' ),
+                'label' => $gLocale->getStr('showticket.button'),
                 'themeimage' => 'zoom',
                 'horiz' => 'true',
-                'action' => WuiEventsCall::buildEventsCallString( '', array( array(
+                'action' => WuiEventsCall::buildEventsCallString('', array( array(
                     'view',
                     'showticket',
-                    array( 'id' => $ticket['id'] ) ) ) )
+                    array('id' => $ticket['id'] ) ) ) )
                 ),
             'done' => array(
                 'label' => $gLocale->getStr( $done_label ),
                 'themeimage' => $done_icon,
                 'horiz' => 'true',
-                'action' => WuiEventsCall::buildEventsCallString( '', array(
+                'action' => WuiEventsCall::buildEventsCallString('', array(
                 array(
                     'view',
                     'default',
@@ -1054,13 +1049,13 @@ function main_default($eventData)
                 array(
                     'action',
                     'editticket',
-                    array( 'id' => $ticket['id'], 'done' => $done_action ) ) ) )
+                    array('id' => $ticket['id'], 'done' => $done_action ) ) ) )
                 ),
             'trash' => array(
-                'label' => $gLocale->getStr( 'trashticket.button' ),
+                'label' => $gLocale->getStr('trashticket.button'),
                 'themeimage' => 'trash',
                 'horiz' => 'true',
-                'action' => WuiEventsCall::buildEventsCallString( '', array(
+                'action' => WuiEventsCall::buildEventsCallString('', array(
                     array(
                         'view',
                         'default',
@@ -1069,7 +1064,7 @@ function main_default($eventData)
                     array(
                         'action',
                         'trashticket',
-                        array( 'id' => $ticket['id'] ) ) ) )
+                        array('id' => $ticket['id'] ) ) ) )
         ) ) ) ).'</toolbars>
   </args>
 </innomatictoolbar>';
@@ -1097,7 +1092,7 @@ function main_newticket(
 {
     global $gXml_def, $gLocale, $customers;
 
-    $headers[0]['label'] = $gLocale->getStr( 'newticket.header' );
+    $headers[0]['label'] = $gLocale->getStr('newticket.header');
 
     $gXml_def =
 '
@@ -1112,7 +1107,7 @@ function main_newticket(
 
         <form row="0" col="0"><name>newticket</name>
           <args>
-                <action>'.tickets_cdata(
+                <action>'.WuiXml::cdata(
                     WuiEventsCall::buildEventsCallString(
                         '',
                         array(
@@ -1134,7 +1129,7 @@ function main_newticket(
 
                 <label row="0" col="0">
                   <args>
-                    <label>'.$gLocale->getStr( 'customer.label' ).'</label>
+                    <label>'.$gLocale->getStr('customer.label').'</label>
                   </args>
                 </label>
 
@@ -1156,11 +1151,11 @@ function main_newticket(
             <button>
               <args>
                 <themeimage>buttonok</themeimage>
-                <label>'.$gLocale->getStr( 'new_ticket.button' ).'</label>
+                <label>'.$gLocale->getStr('new_ticket.button').'</label>
                 <formsubmit>newticket</formsubmit>
                 <frame>false</frame>
                 <horiz>true</horiz>
-                <action>'.tickets_cdata(
+                <action>'.WuiXml::cdata(
                     WuiEventsCall::buildEventsCallString(
                         '',
                         array(
@@ -1221,11 +1216,11 @@ function main_showticket(
         \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
         );
     $search_results = $innowork_projects->Search(
-        array( 'customerid' => $ticket_data['customerid'] ),
+        array('customerid' => $ticket_data['customerid'] ),
         \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId()
         );
 
-    $projects['0'] = $gLocale->getStr( 'noproject.label' );
+    $projects['0'] = $gLocale->getStr('noproject.label');
 
     while ( list( $id, $fields ) = each( $search_results ) ) {
         $projects[$id] = $fields['name'];
@@ -1249,7 +1244,7 @@ function main_showticket(
     		'SELECT id,fname,lname '.
     		'FROM domain_users '.
     		'WHERE username<>'.\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->formatText(User::getAdminUsername(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDomainId())).' '.
-    		'ORDER BY lname,fname' );
+    		'ORDER BY lname,fname');
     
     $users = array();
     $users[0] = $gLocale->getStr('noone.label');
@@ -1260,16 +1255,16 @@ function main_showticket(
     }
     
     $statuses = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_STATUS );
-    $statuses['0'] = $gLocale->getStr( 'nostatus.label' );
+    $statuses['0'] = $gLocale->getStr('nostatus.label');
 
     $priorities = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_PRIORITY );
-    $priorities['0'] = $gLocale->getStr( 'nopriority.label' );
+    $priorities['0'] = $gLocale->getStr('nopriority.label');
 
     $sources = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_SOURCE );
-    $sources['0'] = $gLocale->getStr( 'nosource.label' );
+    $sources['0'] = $gLocale->getStr('nosource.label');
 
     $channels = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_CHANNEL );
-    $channels['0'] = $gLocale->getStr( 'nochannel.label' );
+    $channels['0'] = $gLocale->getStr('nochannel.label');
 
         if ( $ticket_data['done'] == \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->fmttrue ) {
             $done_icon = 'misc3';
@@ -1281,7 +1276,7 @@ function main_showticket(
             $done_label = 'setdone.button';
         }
 
-    $headers[0]['label'] = sprintf( $gLocale->getStr( 'showticket.header' ), $ticket_data['id'] );
+    $headers[0]['label'] = sprintf( $gLocale->getStr('showticket.header'), $ticket_data['id'] );
 
     $gXml_def =
 '
@@ -1296,7 +1291,7 @@ function main_showticket(
 
         <form row="0" col="0"><name>ticket</name>
           <args>
-                <action>'.tickets_cdata(
+                <action>'.WuiXml::cdata(
                     WuiEventsCall::buildEventsCallString(
                         '',
                         array(
@@ -1332,7 +1327,7 @@ function main_showticket(
 
                     <label>
                       <args>
-                        <label>'.$gLocale->getStr( 'customer.label' ).'</label>
+                        <label>'.$gLocale->getStr('customer.label').'</label>
                       </args>
                     </label>
 
@@ -1346,7 +1341,7 @@ function main_showticket(
 
                     <label>
                       <args>
-                        <label>'.$gLocale->getStr( 'project.label' ).'</label>
+                        <label>'.$gLocale->getStr('project.label').'</label>
                       </args>
                     </label>
 
@@ -1400,7 +1395,7 @@ function main_showticket(
 
                     <label>
                       <args>
-                        <label>'.$gLocale->getStr( 'status.label' ).'</label>
+                        <label>'.$gLocale->getStr('status.label').'</label>
                       </args>
                     </label>
 
@@ -1414,7 +1409,7 @@ function main_showticket(
 
                     <label>
                       <args>
-                        <label>'.$gLocale->getStr( 'priority.label' ).'</label>
+                        <label>'.$gLocale->getStr('priority.label').'</label>
                       </args>
                     </label>
 
@@ -1428,7 +1423,7 @@ function main_showticket(
 
                     <label>
                       <args>
-                        <label>'.$gLocale->getStr( 'source.label' ).'</label>
+                        <label>'.$gLocale->getStr('source.label').'</label>
                       </args>
                     </label>
 
@@ -1442,7 +1437,7 @@ function main_showticket(
 
                     <label>
                       <args>
-                        <label>'.$gLocale->getStr( 'channel.label' ).'</label>
+                        <label>'.$gLocale->getStr('channel.label').'</label>
                       </args>
                     </label>
 
@@ -1464,7 +1459,7 @@ function main_showticket(
 
                     <label>
                       <args>
-                        <label>'.$gLocale->getStr( 'title.label' ).'</label>
+                        <label>'.$gLocale->getStr('title.label').'</label>
                       </args>
                     </label>
 
@@ -1472,7 +1467,7 @@ function main_showticket(
                       <args>
                         <disp>action</disp>
                         <size>50</size>
-                        <value>'.tickets_cdata( $ticket_data['title'] ).'</value>
+                        <value>'.WuiXml::cdata( $ticket_data['title'] ).'</value>
                       </args>
                     </string>
 
@@ -1481,7 +1476,7 @@ function main_showticket(
 
                 <label>
                   <args>
-                    <label>'.$gLocale->getStr( 'description.label' ).'</label>
+                    <label>'.$gLocale->getStr('description.label').'</label>
                   </args>
                 </label>
 
@@ -1490,13 +1485,13 @@ function main_showticket(
                     <disp>action</disp>
                     <rows>5</rows>
                     <cols>60</cols>
-                    <value>'.tickets_cdata( $ticket_data['description'] ).'</value>
+                    <value>'.WuiXml::cdata( $ticket_data['description'] ).'</value>
                   </args>
                 </text>
 
                 <label>
                   <args>
-                    <label>'.$gLocale->getStr( 'solution.label' ).'</label>
+                    <label>'.$gLocale->getStr('solution.label').'</label>
                   </args>
                 </label>
 
@@ -1505,7 +1500,7 @@ function main_showticket(
                     <disp>action</disp>
                     <rows>5</rows>
                     <cols>60</cols>
-                    <value>'.tickets_cdata( $ticket_data['solution'] ).'</value>
+                    <value>'.WuiXml::cdata( $ticket_data['solution'] ).'</value>
                   </args>
                 </text>
 
@@ -1520,11 +1515,11 @@ function main_showticket(
             <button>
               <args>
                 <themeimage>buttonok</themeimage>
-                <label>'.tickets_cdata( $gLocale->getStr( 'update_ticket.button' ) ).'</label>
+                <label>'.WuiXml::cdata( $gLocale->getStr('update_ticket.button') ).'</label>
                 <formsubmit>ticket</formsubmit>
                 <frame>false</frame>
                 <horiz>true</horiz>
-                <action>'.tickets_cdata(
+                <action>'.WuiXml::cdata(
                     WuiEventsCall::buildEventsCallString(
                         '',
                         array(
@@ -1551,11 +1546,11 @@ function main_showticket(
             <button>
               <args>
                 <themeimage>attach</themeimage>
-                <label>'.$gLocale->getStr( 'add_message.button' ).'</label>
+                <label>'.$gLocale->getStr('add_message.button').'</label>
                 <frame>false</frame>
                 <horiz>true</horiz>
                 <target>messages</target>
-                <action>'.tickets_cdata(
+                <action>'.WuiXml::cdata(
                     WuiEventsCall::buildEventsCallString(
                         '',
                         array(
@@ -1577,7 +1572,7 @@ function main_showticket(
             <themeimage>'.$done_icon.'</themeimage>
             <horiz>true</horiz>
             <frame>false</frame>
-            <action>'.tickets_cdata( WuiEventsCall::buildEventsCallString( '', array(
+            <action>'.WuiXml::cdata( WuiEventsCall::buildEventsCallString('', array(
                     array(
                         'view',
                         'default',
@@ -1599,10 +1594,10 @@ function main_showticket(
             <button>
               <args>
                 <themeimage>trash</themeimage>
-                <label>'.$gLocale->getStr( 'trash_ticket.button' ).'</label>
+                <label>'.$gLocale->getStr('trash_ticket.button').'</label>
                 <frame>false</frame>
                 <horiz>true</horiz>
-                <action>'.tickets_cdata(
+                <action>'.WuiXml::cdata(
                     WuiEventsCall::buildEventsCallString(
                         '',
                         array(
@@ -1630,7 +1625,7 @@ function main_showticket(
           <args>
             <width>450</width>
             <height>200</height>
-            <source>'.tickets_cdata(
+            <source>'.WuiXml::cdata(
                 WuiEventsCall::buildEventsCallString(
                     '',
                     array(
@@ -1656,8 +1651,8 @@ function main_showticket(
       <itemtype>ticket</itemtype>
       <itemid>'.$eventData['id'].'</itemid>
       <itemownerid>'.$ticket_data['ownerid'].'</itemownerid>
-      <defaultaction>'.tickets_cdata( WuiEventsCall::buildEventsCallString( '', array(
-        array( 'view', 'showticket', array( 'id' => $eventData['id'] ) ) ) ) ).'</defaultaction>
+      <defaultaction>'.WuiXml::cdata( WuiEventsCall::buildEventsCallString('', array(
+        array('view', 'showticket', array('id' => $eventData['id'] ) ) ) ) ).'</defaultaction>
     </args>
   </innoworkitemacl>
 
@@ -1683,8 +1678,8 @@ function main_ticketmessages(
 
     $messages = $innowork_ticket->getMessages();
 
-    $headers[0]['label'] = $gLocale->getStr( 'date.header' );
-    $headers[1]['label'] = $gLocale->getStr( 'message.header' );
+    $headers[0]['label'] = $gLocale->getStr('date.header');
+    $headers[1]['label'] = $gLocale->getStr('message.header');
 
     $gXml_def =
 '
@@ -1713,7 +1708,7 @@ function main_ticketmessages(
   <children>
     <label>
       <args>
-        <label>'.tickets_cdata(
+        <label>'.WuiXml::cdata(
             $country->FormatShortArrayDate( $message['creationdate'] )
             ).'</label>
         <compact>true</compact>
@@ -1721,7 +1716,7 @@ function main_ticketmessages(
     </label>
     <label>
       <args>
-        <label>'.tickets_cdata(
+        <label>'.WuiXml::cdata(
             $country->FormatArrayTime( $message['creationdate'] )
             ).'</label>
         <compact>true</compact>
@@ -1729,7 +1724,7 @@ function main_ticketmessages(
     </label>
     <label>
       <args>
-        <label>'.tickets_cdata( '('.$message['username'].')' ).'</label>
+        <label>'.WuiXml::cdata('('.$message['username'].')').'</label>
         <compact>true</compact>
       </args>
     </label>
@@ -1739,7 +1734,7 @@ function main_ticketmessages(
   <children>
 <label>
   <args>
-    <label>'.tickets_cdata( nl2br( $message['content'] ) ).'</label>
+    <label>'.WuiXml::cdata( nl2br( $message['content'] ) ).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
@@ -1750,10 +1745,10 @@ function main_ticketmessages(
       <frame>false</frame>
       <themeimage>buttoncancel</themeimage>
       <themeimagetype>mini</themeimagetype>
-      <label>'.$gLocale->getStr( 'remove_message.button' ).'</label>
+      <label>'.$gLocale->getStr('remove_message.button').'</label>
       <needconfirm>true</needconfirm>
-      <confirmmessage>'.$gLocale->getStr( 'remove_message.confirm' ).'</confirmmessage>
-      <action>'.tickets_cdata(
+      <confirmmessage>'.$gLocale->getStr('remove_message.confirm').'</confirmmessage>
+      <action>'.WuiXml::cdata(
                 WuiEventsCall::buildEventsCallString(
                     '',
                     array(
@@ -1789,7 +1784,7 @@ function main_ticketmessages(
   </children>
 </page>';
 
-    $wui = new WuiXml( '', array( 'definition' => $gXml_def ) );
+    $wui = new WuiXml('', array('definition' => $gXml_def ) );
     $wui->Build(new WuiDispatcher('wui'));
     echo $wui->render();
 
@@ -1812,7 +1807,7 @@ function main_addmessage(
         $eventData['ticketid']
         );
 
-    $headers[0]['label'] = $gLocale->getStr( 'message.header' );
+    $headers[0]['label'] = $gLocale->getStr('message.header');
 
     $gXml_def =
 '
@@ -1828,7 +1823,7 @@ function main_addmessage(
   <children>
     <form row="0" col="0"><name>message</name>
       <args>
-                <action>'.tickets_cdata(
+                <action>'.WuiXml::cdata(
                     WuiEventsCall::buildEventsCallString(
                         '',
                         array(
@@ -1869,11 +1864,11 @@ function main_addmessage(
             <button>
               <args>
                 <themeimage>buttonok</themeimage>
-                <label>'.$gLocale->getStr( 'add_message.button' ).'</label>
+                <label>'.$gLocale->getStr('add_message.button').'</label>
                 <formsubmit>message</formsubmit>
                 <frame>false</frame>
                 <horiz>true</horiz>
-                <action>'.tickets_cdata(
+                <action>'.WuiXml::cdata(
                     WuiEventsCall::buildEventsCallString(
                         '',
                         array(
@@ -1905,7 +1900,7 @@ function main_addmessage(
   </children>
 </page>';
 
-    $wui = new WuiXml( '', array( 'definition' => $gXml_def ) );
+    $wui = new WuiXml('', array('definition' => $gXml_def ) );
     $wui->Build(new WuiDispatcher('wui'));
     echo $wui->render();
 
@@ -1916,7 +1911,7 @@ $gMain_disp->Dispatch();
 
 // ----- Rendering -----
 //
-$gWui->addChild( new WuiInnomaticPage( 'page', array(
+$gWui->addChild( new WuiInnomaticPage('page', array(
     'pagetitle' => $gPage_title,
     'icon' => 'folder',
     'toolbars' => array(
