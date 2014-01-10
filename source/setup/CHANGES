@@ -5,6 +5,7 @@ FIXES:
 
 NEW FEATURES:
 - Added "Opened by" and "Assigned to" fields. (Alex Pagnoni)
+- Added dashboard widget with user assigned tickets. (Alex Pagnoni)
 
 CHANGES:
 - Added wrap in tickets listing. (Alex Pagnoni)
