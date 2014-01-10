@@ -1,3 +1,17 @@
+1.4.0 - 
+------------------
+FIXES:
+- Fixed not working filter for project field. (Alex Pagnoni)
+
+NEW FEATURES:
+- Added "Opened by" and "Assigned to" fields. (Alex Pagnoni)
+- Added dashboard widget with user assigned tickets. (Alex Pagnoni)
+
+CHANGES:
+- Added wrap in tickets listing. (Alex Pagnoni)
+
+
+
 1.3.1 - 2014/01/08
 ------------------
 CHANGES:

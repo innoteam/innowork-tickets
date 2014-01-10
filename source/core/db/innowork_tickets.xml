@@ -17,6 +17,8 @@
         <field  name="sourceid"   type="integer"/>
         <field name="channelid" type="integer"/>
         <!-- field name="reserved" type="boolean"/-->
+        <field  name="openedby"  type="integer"/>
+        <field  name="assignedto"  type="integer"/>
         <key    field="id"  type="unique"/>
     </table>
 

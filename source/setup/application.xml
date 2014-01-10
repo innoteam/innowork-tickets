@@ -64,5 +64,13 @@
 			icontype="apps" domainpanel="innoworktickets"
 			miniicon="folder_txt" summaryname="ticket-name" showmode="list" />
 
+        <dashboardwidget
+            name="innoworkmytickets"
+            panel="tickets"
+            file="InnoworkMyTicketsDashboardWidget.php"
+            catalog="innowork-tickets::innoworktickets_dashboard"
+            title="mytickets"
+            class="\\Shared\\Dashboard\\InnoworkMyTicketsDashboardWidget" />
+            
 	</components>
 </application>
