@@ -921,10 +921,6 @@ function main_default($eventData)
             $country->FormatShortArrayDate(
                 \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->getDateArrayFromTimestamp(
                     $ticket['creationdate'] )
-                ).' '.$country->FormatArrayTime(
-                \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->getDateArrayFromTimestamp(
-                    $ticket['creationdate']
-                    )
                 )
             ).'</label>
         <compact>true</compact>
@@ -963,6 +959,7 @@ function main_default($eventData)
         ) ).'</link>
     <label>'.WuiXml::cdata('<strong>'.$tmp_customer_data['companyname'].'</strong>').'</label>
     <compact>true</compact>
+    <nowrap>false</nowrap>
   </args>
 </link>
 
