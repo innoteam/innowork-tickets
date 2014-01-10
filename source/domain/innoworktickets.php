@@ -532,12 +532,18 @@ function main_default($eventData)
         $tickets->mSearchOrderBy = 'title'.( $sort_order == 'up' ? ' DESC' : '' );
         break;
     case '4':
-        $tickets->mSearchOrderBy = 'priorityid'.( $sort_order == 'up' ? ' DESC' : '' );
+        $tickets->mSearchOrderBy = 'openedby'.( $sort_order == 'up' ? ' DESC' : '' );
         break;
     case '5':
-        $tickets->mSearchOrderBy = 'statusid'.( $sort_order == 'up' ? ' DESC' : '' );
+        $tickets->mSearchOrderBy = 'assignedto'.( $sort_order == 'up' ? ' DESC' : '' );
         break;
     case '6':
+        $tickets->mSearchOrderBy = 'priorityid'.( $sort_order == 'up' ? ' DESC' : '' );
+        break;
+    case '7':
+        $tickets->mSearchOrderBy = 'statusid'.( $sort_order == 'up' ? ' DESC' : '' );
+        break;
+    case '8':
         $tickets->mSearchOrderBy = 'sourceid'.( $sort_order == 'up' ? ' DESC' : '' );
         break;
     }
@@ -592,26 +598,32 @@ function main_default($eventData)
                     'default',
                     array( 'sortby' => '3' )
                     ) ) );
-    $headers[3]['label'] = $gLocale->getStr( 'priority.header' );
-    $headers[3]['link'] = WuiEventsCall::buildEventsCallString( '',
-            array( array(
-                    'view',
-                    'default',
-                    array( 'sortby' => '4' )
-                    ) ) );
-    $headers[4]['label'] = $gLocale->getStr( 'status.header' );
-    $headers[4]['link'] = WuiEventsCall::buildEventsCallString( '',
-            array( array(
-                    'view',
-                    'default',
-                    array( 'sortby' => '5' )
-                    ) ) );
-    $headers[5]['label'] = $gLocale->getStr( 'source.header' );
+    $headers[3]['label'] = $gLocale->getStr('openedby.header');
+    $headers[3]['link'] = WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('sortby' => '4'))));
+
+    $headers[4]['label'] = $gLocale->getStr('assignedto.header');
+    $headers[4]['link'] = WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('sortby' => '5'))));
+    
+    $headers[5]['label'] = $gLocale->getStr( 'priority.header' );
     $headers[5]['link'] = WuiEventsCall::buildEventsCallString( '',
             array( array(
                     'view',
                     'default',
                     array( 'sortby' => '6' )
+                    ) ) );
+    $headers[6]['label'] = $gLocale->getStr( 'status.header' );
+    $headers[6]['link'] = WuiEventsCall::buildEventsCallString( '',
+            array( array(
+                    'view',
+                    'default',
+                    array( 'sortby' => '7' )
+                    ) ) );
+    $headers[7]['label'] = $gLocale->getStr( 'source.header' );
+    $headers[7]['link'] = WuiEventsCall::buildEventsCallString( '',
+            array( array(
+                    'view',
+                    'default',
+                    array( 'sortby' => '8' )
                     ) ) );
 
     $gXml_def =
@@ -899,7 +911,10 @@ function main_default($eventData)
 
             $tmp_project_data = $tmp_project->getItem();
 
-        $gXml_def .=
+            $users[''] = $gLocale->getStr('noone.label');
+            $users[0] = $gLocale->getStr('noone.label');
+            
+            $gXml_def .=
 '<horizgroup row="'.$row.'" col="0">
   <args>
   </args>
@@ -984,23 +999,35 @@ function main_default($eventData)
 </label>
 <label row="'.$row.'" col="3">
   <args>
-    <label>'.tickets_cdata( $priorities[$ticket['priorityid']] ).'</label>
+    <label>'.tickets_cdata($users[$ticket['openedby']]).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="4">
   <args>
-    <label>'.tickets_cdata( $statuses[$ticket['statusid']] ).'</label>
+    <label>'.tickets_cdata($users[$ticket['assignedto']]).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="5">
   <args>
+    <label>'.tickets_cdata( $priorities[$ticket['priorityid']] ).'</label>
+    <nowrap>false</nowrap>
+  </args>
+</label>
+<label row="'.$row.'" col="6">
+  <args>
+    <label>'.tickets_cdata( $statuses[$ticket['statusid']] ).'</label>
+    <nowrap>false</nowrap>
+  </args>
+</label>
+<label row="'.$row.'" col="7">
+  <args>
     <label>'.tickets_cdata( $sources[$ticket['sourceid']] ).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
-<innomatictoolbar row="'.$row.'" col="6"><name>tools</name>
+<innomatictoolbar row="'.$row.'" col="8"><name>tools</name>
   <args>
     <frame>false</frame>
     <toolbars type="array">'.WuiXml::encode( array(
