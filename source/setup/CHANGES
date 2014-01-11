@@ -7,6 +7,9 @@ CHANGES:
 - Layout improvements. (Alex Pagnoni)
 - Moved field types from Innowork Project to Innowork Tickets. (Alex Pagnoni)
 
+FIXES:
+- Fixed missing companies in tickets filter. (Alex Pagnoni)
+
 
 
 1.4.0 - 2014/01/10

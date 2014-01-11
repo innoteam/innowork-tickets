@@ -11,9 +11,10 @@ require_once('innomatic/wui/dispatch/WuiEventsCall.php');
 require_once('innomatic/wui/dispatch/WuiEvent.php');
 require_once('innomatic/wui/dispatch/WuiEventRawData.php');
 require_once('innomatic/wui/dispatch/WuiDispatcher.php');
-require_once('innomatic/locale/LocaleCatalog.php'); require_once('innomatic/locale/LocaleCountry.php');
+require_once('innomatic/locale/LocaleCatalog.php');
+require_once('innomatic/locale/LocaleCountry.php');
 
-global $gLocale, $gPage_title, $gXml_def, $gPage_status, $gToolbars, $gInnowork_core, $customers;
+global $gLocale, $gPage_title, $gXml_def, $gPage_status, $gToolbars, $gInnowork_core;
 
 require_once('innowork/core/InnoworkCore.php');
 $gInnowork_core = InnoworkCore::instance('innoworkcore',
@@ -31,22 +32,6 @@ $gWui->loadWidget('xml');
 $gWui->loadWidget('innomaticpage');
 $gWui->loadWidget('innomatictoolbar');
 $gWui->loadWidget('table');
-
-// Companies
-
-require_once('innowork/groupware/InnoworkCompany.php');
-$innowork_companies = new InnoworkCompany(
-    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
-    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
-    );
-$search_results = $innowork_companies->Search(
-    '',
-    \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId()
-    );
-$customers[0] = $gLocale->getStr('nocustomer.label');
-while ( list( $id, $fields ) = each( $search_results ) ) {
-    $customers[$id] = $fields['companyname'];
-}
 
 $gXml_def = $gPage_status = '';
 $gPage_title = $gLocale->getStr('tickets.title');
@@ -214,7 +199,7 @@ $gMain_disp->addEvent(
     );
 function main_default($eventData)
 {
-    global $gLocale, $gPage_title, $gXml_def, $gPage_status, $gToolbars, $gInnowork_core, $customers;
+    global $gLocale, $gPage_title, $gXml_def, $gPage_status, $gToolbars, $gInnowork_core;
 
     require_once('shared/wui/WuiSessionkey.php');
 
@@ -232,8 +217,20 @@ function main_default($eventData)
         $projects[$id] = $fields['name'];
     }
 
-    $customers_filter = $customer;
-    $customers_filter[0] = $gLocale->getStr('allcustomers.label');
+    $innowork_customers = new InnoworkCompany(
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
+        );
+    $search_results = $innowork_customers->Search(
+        '',
+        \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId()
+        );
+
+    $customers_filter['0'] = $gLocale->getStr( 'allcustomers.label' );
+    while ( list( $id, $fields ) = each( $search_results ) )
+    {
+        $customers_filter[$id] = $fields['companyname'];
+    }
 
     $statuses = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_STATUS );
     $statuses['0'] = $gLocale->getStr('allstatuses.label');
@@ -1131,8 +1128,24 @@ function main_newticket(
     $eventData
     )
 {
-    global $gXml_def, $gLocale, $customers;
+    global $gXml_def, $gLocale;
 
+    // Companies
+    
+    require_once('innowork/groupware/InnoworkCompany.php');
+    $innowork_companies = new InnoworkCompany(
+    		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
+    		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
+    );
+    $search_results = $innowork_companies->Search(
+    		'',
+    		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId()
+    );
+    $customers[0] = $gLocale->getStr('nocustomer.label');
+    while ( list( $id, $fields ) = each( $search_results ) ) {
+    	$customers[$id] = $fields['companyname'];
+    }
+    
     $headers[0]['label'] = $gLocale->getStr('newticket.header');
 
     $gXml_def =
@@ -1232,7 +1245,7 @@ function main_showticket(
     $eventData
     )
 {
-    global $gXml_def, $gLocale, $customers;
+    global $gXml_def, $gLocale;
 
     $locale_country = new LocaleCountry(
         \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getCountry()
@@ -1267,6 +1280,22 @@ function main_showticket(
         $projects[$id] = $fields['name'];
     }
 
+    // Companies
+    
+    require_once('innowork/groupware/InnoworkCompany.php');
+    $innowork_companies = new InnoworkCompany(
+    		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
+    		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
+    );
+    $search_results = $innowork_companies->Search(
+    		'',
+    		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId()
+    );
+    $customers[0] = $gLocale->getStr('nocustomer.label');
+    while ( list( $id, $fields ) = each( $search_results ) ) {
+    	$customers[$id] = $fields['companyname'];
+    }
+    
     // "Assigned to" user
     if ($ticket_data['assignedto'] != '') {
     	$assignedto_user = $ticket_data['assignedto'];
