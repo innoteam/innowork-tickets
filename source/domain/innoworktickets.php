@@ -1270,10 +1270,10 @@ function main_showticket(
         } else {
             $done_icon = 'drawer';
             $done_action = 'true';
-            $done_label = 'setdone.button';
+            $done_label = 'archive_ticket.button';
         }
 
-    $headers[0]['label'] = sprintf( $gLocale->getStr('showticket.header'), $ticket_data['id'] );
+    $headers[0]['label'] = sprintf($gLocale->getStr('showticket.header'), $ticket_data['id']).' - '.$ticket_data['title'];
 
     $gXml_def =
 '
@@ -1463,7 +1463,7 @@ function main_showticket(
                     <string><name>title</name>
                       <args>
                         <disp>action</disp>
-                        <size>50</size>
+                        <size>80</size>
                         <value>'.WuiXml::cdata( $ticket_data['title'] ).'</value>
                       </args>
                     </string>
@@ -1480,8 +1480,8 @@ function main_showticket(
                 <text><name>description</name>
                   <args>
                     <disp>action</disp>
-                    <rows>5</rows>
-                    <cols>60</cols>
+                    <rows>6</rows>
+                    <cols>100</cols>
                     <value>'.WuiXml::cdata( $ticket_data['description'] ).'</value>
                   </args>
                 </text>
@@ -1495,8 +1495,8 @@ function main_showticket(
                 <text><name>solution</name>
                   <args>
                     <disp>action</disp>
-                    <rows>5</rows>
-                    <cols>60</cols>
+                    <rows>6</rows>
+                    <cols>100</cols>
                     <value>'.WuiXml::cdata( $ticket_data['solution'] ).'</value>
                   </args>
                 </text>
@@ -1508,6 +1508,7 @@ function main_showticket(
         </form>
 
         <horizgroup row="1" col="0">
+          <args><width>0%</width></args>
           <children>
             <button>
               <args>
