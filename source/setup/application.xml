@@ -48,15 +48,22 @@
 		<domainpanel name="innoworktickets" file="innoworktickets.php"
 			category="support" themeicon="kword" themeicontype="apps"
 			catalog="innowork-tickets::innoworktickets_misc" />
-
+        <domainpanel name="innoworkticketsprefs"
+            file="innoworkticketsprefs.php" category="preferences"
+            themeicon="plan" themeicontype="apps"
+            catalog="innowork-tickets::innoworktickets_misc" />
+            
 		<domaintable name="innowork_tickets"
 			file="innowork_tickets.xml" />
 		<domaintable name="innowork_tickets_messages"
 			file="innowork_tickets_messages.xml" />
+        <domaintable name="innowork_tickets_fields_values"
+            file="innowork_tickets_fields_values.xml" />
 
 		<catalog name="innowork-tickets" />
 
 		<class name="innowork/tickets/InnoworkTicket.php" />
+        <class name="innowork/tickets/InnoworkTicketField.php" />
 
 		<innoworkitemtype name="ticket" file="ticket"
 			catalog="innowork-tickets::innoworktickets_misc"

@@ -2,8 +2,8 @@
 // ----- Initialization -----
 //
 require_once('innowork/tickets/InnoworkTicket.php');
+require_once('innowork/tickets/InnoworkTicketField.php');
 require_once('innowork/projects/InnoworkProject.php');
-require_once('innowork/projects/InnoworkProjectField.php');
 require_once('innomatic/wui/Wui.php');
 require_once('innomatic/wui/widgets/WuiWidget.php');
 require_once('innomatic/wui/widgets/WuiContainerWidget.php');
@@ -235,16 +235,16 @@ function main_default($eventData)
     $customers_filter = $customer;
     $customers_filter[0] = $gLocale->getStr('allcustomers.label');
 
-    $statuses = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_STATUS );
+    $statuses = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_STATUS );
     $statuses['0'] = $gLocale->getStr('allstatuses.label');
 
-    $priorities = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_PRIORITY );
+    $priorities = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_PRIORITY );
     $priorities['0'] = $gLocale->getStr('allpriorities.label');
 
-    $sources = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_SOURCE );
+    $sources = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_SOURCE );
     $sources['0'] = $gLocale->getStr('allsources.label');
 
-    $channels = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_CHANNEL );
+    $channels = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_CHANNEL );
     $channels['0'] = $gLocale->getStr('allchannels.label');
 
     // Filtering
@@ -842,16 +842,16 @@ function main_default($eventData)
 
     $row = 0;
 
-    $statuses = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_STATUS );
+    $statuses = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_STATUS );
     $statuses['0'] = $gLocale->getStr('nostatus.label');
 
-    $priorities = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_PRIORITY );
+    $priorities = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_PRIORITY );
     $priorities['0'] = $gLocale->getStr('nopriority.label');
 
-    $sources = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_SOURCE );
+    $sources = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_SOURCE );
     $sources['0'] = $gLocale->getStr('nosource.label');
 
-    $channels = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_CHANNEL );
+    $channels = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_CHANNEL );
     $channels['0'] = $gLocale->getStr('nochannel.label');
 
     $page = 1;
@@ -1251,16 +1251,16 @@ function main_showticket(
     	$users_query->moveNext();
     }
     
-    $statuses = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_STATUS );
+    $statuses = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_STATUS );
     $statuses['0'] = $gLocale->getStr('nostatus.label');
 
-    $priorities = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_PRIORITY );
+    $priorities = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_PRIORITY );
     $priorities['0'] = $gLocale->getStr('nopriority.label');
 
-    $sources = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_SOURCE );
+    $sources = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_SOURCE );
     $sources['0'] = $gLocale->getStr('nosource.label');
 
-    $channels = InnoworkProjectField::getFields( INNOWORKPROJECTS_FIELDTYPE_CHANNEL );
+    $channels = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_CHANNEL );
     $channels['0'] = $gLocale->getStr('nochannel.label');
 
         if ( $ticket_data['done'] == \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->fmttrue ) {

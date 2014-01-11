@@ -25,10 +25,10 @@ class InnoworkTicket extends InnoworkItem
         $this->mKeys['solution'] = 'text';
         $this->mKeys['projectid'] = 'table:innowork_projects:name:integer';
         $this->mKeys['customerid'] = 'table:innowork_directory_companies:companyname:integer';
-        $this->mKeys['statusid'] = 'table:innowork_projects_fields_values:fieldvalue:integer';
-        $this->mKeys['priorityid'] = 'table:innowork_projects_fields_values:fieldvalue:integer';
-        $this->mKeys['sourceid'] = 'table:innowork_projects_fields_values:fieldvalue:integer';
-        $this->mKeys['channelid'] = 'table:innowork_projects_fields_values:fieldvalue:integer';
+        $this->mKeys['statusid'] = 'table:innowork_tickets_fields_values:fieldvalue:integer';
+        $this->mKeys['priorityid'] = 'table:innowork_tickets_fields_values:fieldvalue:integer';
+        $this->mKeys['sourceid'] = 'table:innowork_tickets_fields_values:fieldvalue:integer';
+        $this->mKeys['channelid'] = 'table:innowork_tickets_fields_values:fieldvalue:integer';
         $this->mKeys['creationdate'] = 'timestamp';
         $this->mKeys['done'] = 'boolean';
         $this->mKeys['openedby'] = 'integer';
