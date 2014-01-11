@@ -178,6 +178,22 @@ function action_removemessage(
     else $gPage_status = $gLocale->getStr('message_not_removed.status');
 }
 
+$gAction_disp->addEvent('erasefilter', 'action_erasefilter');
+function action_erasefilter($eventData) {
+	$filter_sk = new WuiSessionKey('customer_filter', array('value' => ''));
+	$filter_sk = new WuiSessionKey('project_filter', array('value' => ''));
+	$filter_sk = new WuiSessionKey('priority_filter', array('value' => ''));
+	$filter_sk = new WuiSessionKey('status_filter', array('value' => ''));
+	$filter_sk = new WuiSessionKey('source_filter', array('value' => ''));
+	$filter_sk = new WuiSessionKey('channel_filter', array('value' => ''));
+	$filter_sk = new WuiSessionKey('type_filter', array('value' => ''));
+	$filter_sk = new WuiSessionKey('year_filter', array('value' => ''));
+	$filter_sk = new WuiSessionKey('month_filter', array('value' => ''));
+	$filter_sk = new WuiSessionKey('day_filter', array('value' => ''));
+	$filter_sk = new WuiSessionKey('openedby_filter', array('value' => ''));
+	$filter_sk = new WuiSessionKey('assignedto_filter', array('value' => ''));
+}
+
 $gAction_disp->Dispatch();
 
 // ----- Main dispatcher -----
@@ -710,7 +726,7 @@ function main_default($eventData)
             <horiz>true</horiz>
             <frame>false</frame>
             <formsubmit>filter</formsubmit>
-            <label>'.$gLocale->getStr('filter.button').'</label>
+            <label>'.WuiXml::cdata($gLocale->getStr('filter.button')).'</label>
             <action>'.WuiXml::cdata( WuiEventsCall::buildEventsCallString('', array(
                 array(
                     'view',
@@ -722,7 +738,21 @@ function main_default($eventData)
             ) ) ).'</action>
           </args>
         </button>
-
+            		
+        <button row="1" col="4"><name>erasefilter</name>
+          <args>
+            <themeimage>buttoncancel</themeimage>
+            <horiz>true</horiz>
+            <frame>false</frame>
+            <formsubmit>filter</formsubmit>
+            <label>'.WuiXml::cdata($gLocale->getStr('erase_filter.button')).'</label>
+            <action>'.WuiXml::cdata(WuiEventsCall::buildEventsCallString('', array(
+                array('view', 'default', array()),
+            	array('action', 'erasefilter', array())
+            ))).'</action>
+          </args>
+        </button>
+            		
     <label row="1" col="0"><name>customer</name>
       <args>
         <label>'.$gLocale->getStr('filter_customer.label').'</label>
