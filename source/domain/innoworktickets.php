@@ -247,6 +247,9 @@ function main_default($eventData)
     $channels = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_CHANNEL );
     $channels['0'] = $gLocale->getStr('allchannels.label');
 
+    $types = InnoworkTicketField::getFields(InnoworkTicketField::TYPE_TYPE);
+    $types['0'] = $gLocale->getStr('alltypes.label');
+    
     // Filtering
 
     if ( isset($eventData['filter'] ) ) {
@@ -305,6 +308,13 @@ function main_default($eventData)
 
         if ( $eventData['filter_sourceid'] != 0 ) $search_keys['sourceid'] = $eventData['filter_sourceid'];
 
+        // Type
+        $type_filter_sk = new WuiSessionKey('type_filter', array('value' => $eventData['filter_typeid']));
+        
+        if ($eventData['filter_typeid'] != 0) {
+        	$search_keys['typeid'] = $eventData['filter_typeid'];
+        }
+        
         // Channel
 
         $channel_filter_sk = new WuiSessionKey(
@@ -406,6 +416,15 @@ function main_default($eventData)
            ) $search_keys['sourceid'] = $source_filter_sk->mValue;
         $eventData['filter_sourceid'] = $source_filter_sk->mValue;
 
+        // Type
+
+        $type_filter_sk = new WuiSessionKey('type_filter');
+        if (strlen( $type_filter_sk->mValue) and $type_filter_sk->mValue != 0) {
+        	$search_keys['typeid'] = $type_filter_sk->mValue;
+        }
+        
+        $eventData['filter_typeid'] = $type_filter_sk->mValue;
+        
         // Channel
 
         $channel_filter_sk = new WuiSessionKey('channel_filter');
@@ -598,27 +617,30 @@ function main_default($eventData)
 
     $headers[4]['label'] = $gLocale->getStr('assignedto.header');
     $headers[4]['link'] = WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('sortby' => '5'))));
+
+    $headers[5]['label'] = $gLocale->getStr('type.header');
+    $headers[5]['link'] = WuiEventsCall::buildEventsCallString('', array(array('view', 'default', array('sortby' => '6'))));
     
-    $headers[5]['label'] = $gLocale->getStr('priority.header');
-    $headers[5]['link'] = WuiEventsCall::buildEventsCallString('',
-            array( array(
-                    'view',
-                    'default',
-                    array('sortby' => '6')
-                    ) ) );
-    $headers[6]['label'] = $gLocale->getStr('status.header');
+    $headers[6]['label'] = $gLocale->getStr('priority.header');
     $headers[6]['link'] = WuiEventsCall::buildEventsCallString('',
             array( array(
                     'view',
                     'default',
                     array('sortby' => '7')
                     ) ) );
-    $headers[7]['label'] = $gLocale->getStr('source.header');
+    $headers[7]['label'] = $gLocale->getStr('status.header');
     $headers[7]['link'] = WuiEventsCall::buildEventsCallString('',
             array( array(
                     'view',
                     'default',
                     array('sortby' => '8')
+                    ) ) );
+    $headers[8]['label'] = $gLocale->getStr('source.header');
+    $headers[8]['link'] = WuiEventsCall::buildEventsCallString('',
+            array( array(
+                    'view',
+                    'default',
+                    array('sortby' => '9')
                     ) ) );
 
     $gXml_def =
@@ -760,10 +782,23 @@ function main_default($eventData)
             		
     <label row="0" col="2">
       <args>
+        <label>'.$gLocale->getStr('filter_type.label').'</label>
+      </args>
+    </label>
+    <combobox row="0" col="3"><name>filter_typeid</name>
+      <args>
+        <disp>view</disp>
+        <elements type="array">'.WuiXml::encode($types).'</elements>
+        <default>'.(isset($eventData['filter_typeid']) ? $eventData['filter_typeid'] : '').'</default>
+      </args>
+    </combobox>
+
+    <label row="1" col="2">
+      <args>
         <label>'.$gLocale->getStr('filter_priority.label').'</label>
       </args>
     </label>
-    <combobox row="0" col="3"><name>filter_priorityid</name>
+    <combobox row="1" col="3"><name>filter_priorityid</name>
       <args>
         <disp>view</disp>
         <elements type="array">'.WuiXml::encode( $priorities ).'</elements>
@@ -771,12 +806,12 @@ function main_default($eventData)
       </args>
     </combobox>
 
-    <label row="1" col="2">
+    <label row="2" col="2">
       <args>
         <label>'.$gLocale->getStr('filter_status.label').'</label>
       </args>
     </label>
-    <combobox row="1" col="3"><name>filter_statusid</name>
+    <combobox row="2" col="3"><name>filter_statusid</name>
       <args>
         <disp>view</disp>
         <elements type="array">'.WuiXml::encode( $statuses ).'</elements>
@@ -784,12 +819,12 @@ function main_default($eventData)
       </args>
     </combobox>
 
-    <label row="2" col="2">
+    <label row="3" col="2">
       <args>
         <label>'.$gLocale->getStr('filter_source.label').'</label>
       </args>
     </label>
-    <combobox row="2" col="3"><name>filter_sourceid</name>
+    <combobox row="3" col="3"><name>filter_sourceid</name>
       <args>
         <disp>view</disp>
         <elements type="array">'.WuiXml::encode( $sources ).'</elements>
@@ -797,12 +832,12 @@ function main_default($eventData)
       </args>
     </combobox>
 
-    <label row="3" col="2">
+    <label row="4" col="2">
       <args>
         <label>'.$gLocale->getStr('filter_channel.label').'</label>
       </args>
     </label>
-    <combobox row="3" col="3"><name>filter_channelid</name>
+    <combobox row="4" col="3"><name>filter_channelid</name>
       <args>
         <disp>view</disp>
         <elements type="array">'.WuiXml::encode( $channels ).'</elements>
@@ -853,6 +888,9 @@ function main_default($eventData)
 
     $channels = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_CHANNEL );
     $channels['0'] = $gLocale->getStr('nochannel.label');
+
+    $types = InnoworkTicketField::getFields(InnoworkTicketField::TYPE_TYPE);
+    $types['0'] = $gLocale->getStr('notype.label');
 
     $page = 1;
 
@@ -1003,23 +1041,29 @@ function main_default($eventData)
 </label>
 <label row="'.$row.'" col="5">
   <args>
-    <label>'.WuiXml::cdata( $priorities[$ticket['priorityid']] ).'</label>
+    <label>'.WuiXml::cdata($types[$ticket['typeid']]).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="6">
   <args>
-    <label>'.WuiXml::cdata( $statuses[$ticket['statusid']] ).'</label>
+    <label>'.WuiXml::cdata( $priorities[$ticket['priorityid']] ).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
 <label row="'.$row.'" col="7">
   <args>
+    <label>'.WuiXml::cdata( $statuses[$ticket['statusid']] ).'</label>
+    <nowrap>false</nowrap>
+  </args>
+</label>
+<label row="'.$row.'" col="8">
+  <args>
     <label>'.WuiXml::cdata( $sources[$ticket['sourceid']] ).'</label>
     <nowrap>false</nowrap>
   </args>
 </label>
-<innomatictoolbar row="'.$row.'" col="8"><name>tools</name>
+<innomatictoolbar row="'.$row.'" col="9"><name>tools</name>
   <args>
     <frame>false</frame>
     <toolbars type="array">'.WuiXml::encode( array(
@@ -1263,6 +1307,9 @@ function main_showticket(
     $channels = InnoworkTicketField::getFields( InnoworkTicketField::TYPE_CHANNEL );
     $channels['0'] = $gLocale->getStr('nochannel.label');
 
+    $types = InnoworkTicketField::getFields(InnoworkTicketField::TYPE_TYPE);
+    $types['0'] = $gLocale->getStr('notype.label');
+    
         if ( $ticket_data['done'] == \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()->fmttrue ) {
             $done_icon = 'misc3';
             $done_action = 'false';
@@ -1382,21 +1429,33 @@ function main_showticket(
             </combobox>
                 		
                 </children></horizgroup>
+        
+        		<horizbar/>
 
-                <horizgroup>
-                  <args>
-                    <align>middle</align>
-                    <width>0%</width>
-                  </args>
+                <grid>
                   <children>
 
-                    <label>
+                    <label row="0" col="0" halign="right">
+                      <args>
+                        <label>'.$gLocale->getStr('type.label').'</label>
+                      </args>
+                    </label>
+
+                    <combobox row="0" col="1"><name>typeid</name>
+                      <args>
+                        <disp>action</disp>
+                        <elements type="array">'.WuiXml::encode($types).'</elements>
+                        <default>'.$ticket_data['typeid'].'</default>
+                      </args>
+                    </combobox>
+                        		
+                    <label row="0" col="2" halign="right">
                       <args>
                         <label>'.$gLocale->getStr('status.label').'</label>
                       </args>
                     </label>
 
-                    <combobox><name>statusid</name>
+                    <combobox row="0" col="3"><name>statusid</name>
                       <args>
                         <disp>action</disp>
                         <elements type="array">'.WuiXml::encode( $statuses ).'</elements>
@@ -1404,27 +1463,27 @@ function main_showticket(
                       </args>
                     </combobox>
 
-                    <label>
+                    <label row="0" col="4" halign="right">
                       <args>
                         <label>'.$gLocale->getStr('priority.label').'</label>
                       </args>
                     </label>
 
-                    <combobox><name>priorityid</name>
+                    <combobox row="0" col="5"><name>priorityid</name>
                       <args>
                         <disp>action</disp>
                         <elements type="array">'.WuiXml::encode( $priorities ).'</elements>
                         <default>'.$ticket_data['priorityid'].'</default>
                       </args>
                     </combobox>
-
-                    <label>
+                        		
+                    <label row="1" col="0" halign="right">
                       <args>
                         <label>'.$gLocale->getStr('source.label').'</label>
                       </args>
                     </label>
 
-                    <combobox><name>sourceid</name>
+                    <combobox row="1" col="1"><name>sourceid</name>
                       <args>
                         <disp>action</disp>
                         <elements type="array">'.WuiXml::encode( $sources ).'</elements>
@@ -1432,13 +1491,13 @@ function main_showticket(
                       </args>
                     </combobox>
 
-                    <label>
+                    <label row="1" col="2" halign="right">
                       <args>
                         <label>'.$gLocale->getStr('channel.label').'</label>
                       </args>
                     </label>
 
-                    <combobox><name>channelid</name>
+                    <combobox row="1" col="3"><name>channelid</name>
                       <args>
                         <disp>action</disp>
                         <elements type="array">'.WuiXml::encode( $channels ).'</elements>
@@ -1447,7 +1506,7 @@ function main_showticket(
                     </combobox>
 
                   </children>
-                </horizgroup>
+                </grid>
 
                 <horizbar/>
 

@@ -1,5 +1,8 @@
 1.x
 ------------------
+NEW FEATURES:
+- Added "Ticket type" field. (Alex Pagnoni)
+ 
 CHANGES:
 - Layout improvements. (Alex Pagnoni)
 - Moved field types from Innowork Project to Innowork Tickets. (Alex Pagnoni)
