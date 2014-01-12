@@ -771,7 +771,7 @@ $this->toolbars['mail'] = array(
       <args>
         <headers type="array">'.WuiXml::encode($headers).'</headers>
         <rowsperpage>15</rowsperpage>
-        <pagesactionfunction>\\InnoworkticketsPanelViews::tickets_list_action_builder</pagesactionfunction>
+        <pagesactionfunction>\\tickets_list_action_builder</pagesactionfunction>
         <pagenumber>'.(isset($eventData['pagenumber']) ? $eventData['pagenumber'] : '').'</pagenumber>
         <sessionobjectusername>'.($eventData['done'] == 'true' ? 'done' : 'undone').'</sessionobjectusername>
         <sortby>'.$sort_by.'</sortby>
@@ -1874,13 +1874,13 @@ $this->toolbars['mail'] = array(
     
         \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->halt();
     }
-    
-    public static function tickets_list_action_builder($pageNumber)
-    {
-    	return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array(
-    			'view',
-    			'default',
-    			array('pagenumber' => $pageNumber)
-    	)));
-    }
+}
+
+function tickets_list_action_builder($pageNumber)
+{
+	return \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('', array(array(
+			'view',
+			'default',
+			array('pagenumber' => $pageNumber)
+	)));
 }
