@@ -3,11 +3,13 @@
 NEW FEATURES:
 - Added "Ticket type" field. (Alex Pagnoni)
 - Added "Erase filter" button. (Alex Pagnoni)
+- Added "task" tag. (Alex Pagnoni)
 
 CHANGES:
 - Layout improvements. (Alex Pagnoni)
 - Moved field types from Innowork Project to Innowork Tickets. (Alex Pagnoni)
 - Upgraded domain panels to new code style. (Alex Pagnoni)
+- Changed innowork-core depency to version 3.3. (Alex Pagnoni)
 
 FIXES:
 - Fixed missing companies in tickets filter. (Alex Pagnoni)
