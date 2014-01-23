@@ -10,7 +10,7 @@ class InnoworkTicket extends InnoworkItem
     public $mNoTrash = false;
     public $mConvertible = true;
     public $mNoAcl = true;
-    public $mTags = array('task');
+    public $mTypeTags = array('task', 'ticket');
     const ITEM_TYPE = 'ticket';
 
     //var $mNoAcl = true;
