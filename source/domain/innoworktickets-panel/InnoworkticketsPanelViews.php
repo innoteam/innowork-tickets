@@ -1224,27 +1224,27 @@ $this->toolbars['mail'] = array(
         }
     
         $statuses = InnoworkTicketField::getFields(InnoworkTicketField::TYPE_STATUS);
-        if (($newTicket = false and $ticket_data['statusid'] == 0) or !count($statuses)) {
+        if (($newTicket == false and $ticket_data['statusid'] == 0) or !count($statuses)) {
             $statuses['0'] = $this->localeCatalog->getStr('nostatus.label');
         }
     
         $priorities = InnoworkTicketField::getFields(InnoworkTicketField::TYPE_PRIORITY);
-        if (($newTicket = false and $ticket_data['priorityid'] == 0) or !count($priorities)) {
+        if (($newTicket == false and $ticket_data['priorityid'] == 0) or !count($priorities)) {
             $priorities['0'] = $this->localeCatalog->getStr('nopriority.label');
         }
     
         $sources = InnoworkTicketField::getFields(InnoworkTicketField::TYPE_SOURCE);
-        if (($newTicket = false and $ticket_data['sourceid'] == 0) or !count($sources)) {
+        if (($newTicket == false and $ticket_data['sourceid'] == 0) or !count($sources)) {
             $sources['0'] = $this->localeCatalog->getStr('nosource.label');
         }
     
         $channels = InnoworkTicketField::getFields(InnoworkTicketField::TYPE_CHANNEL);
-        if (($newTicket = false and $ticket_data['channelid'] == 0) or !count($channels)) {
+        if (($newTicket == false and $ticket_data['channelid'] == 0) or !count($channels)) {
             $channels['0'] = $this->localeCatalog->getStr('nochannel.label');
         }
     
         $types = InnoworkTicketField::getFields(InnoworkTicketField::TYPE_TYPE);
-        if (($newTicket = false and $ticket_data['typeid'] == 0) or !count($types)) {
+        if (($newTicket == false and $ticket_data['typeid'] == 0) or !count($types)) {
             $types['0'] = $this->localeCatalog->getStr('notype.label');
         }
     
