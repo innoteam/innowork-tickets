@@ -10,6 +10,8 @@ CHANGES:
 - Moved field types from Innowork Project to Innowork Tickets. (Alex Pagnoni)
 - Upgraded domain panels to new code style. (Alex Pagnoni)
 - Changed innowork-core depency to version 3.3. (Alex Pagnoni)
+- Removed the empty value from ticket fields, when there are list of values.
+  (Alex Pagnoni)
 
 FIXES:
 - Fixed missing companies in tickets filter. (Alex Pagnoni)
