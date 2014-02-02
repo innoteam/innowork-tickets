@@ -4,8 +4,8 @@
 	<definition>
 		<idname>innowork-tickets</idname>
 		<release>
-			<version>1.4.0</version>
-			<date>2014/01/10</date>
+			<version>1.5.0</version>
+			<date>2014/02/02</date>
 			<changesfile>CHANGES</changesfile>
 		</release>
 		<description>Innowork Tickets</description>
