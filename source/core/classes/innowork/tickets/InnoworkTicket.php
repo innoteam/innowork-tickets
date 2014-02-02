@@ -10,6 +10,7 @@ class InnoworkTicket extends InnoworkItem
     public $mNoTrash = false;
     public $mConvertible = true;
     public $mNoAcl = true;
+    public $mTypeTags = array('task', 'ticket');
     const ITEM_TYPE = 'ticket';
 
     //var $mNoAcl = true;
@@ -25,10 +26,11 @@ class InnoworkTicket extends InnoworkItem
         $this->mKeys['solution'] = 'text';
         $this->mKeys['projectid'] = 'table:innowork_projects:name:integer';
         $this->mKeys['customerid'] = 'table:innowork_directory_companies:companyname:integer';
-        $this->mKeys['statusid'] = 'table:innowork_projects_fields_values:fieldvalue:integer';
-        $this->mKeys['priorityid'] = 'table:innowork_projects_fields_values:fieldvalue:integer';
-        $this->mKeys['sourceid'] = 'table:innowork_projects_fields_values:fieldvalue:integer';
-        $this->mKeys['channelid'] = 'table:innowork_projects_fields_values:fieldvalue:integer';
+        $this->mKeys['statusid'] = 'table:innowork_tickets_fields_values:fieldvalue:integer';
+        $this->mKeys['priorityid'] = 'table:innowork_tickets_fields_values:fieldvalue:integer';
+        $this->mKeys['sourceid'] = 'table:innowork_tickets_fields_values:fieldvalue:integer';
+        $this->mKeys['channelid'] = 'table:innowork_tickets_fields_values:fieldvalue:integer';
+        $this->mKeys['typeid'] = 'table:innowork_tickets_fields_values:fieldvalue:integer';
         $this->mKeys['creationdate'] = 'timestamp';
         $this->mKeys['done'] = 'boolean';
         $this->mKeys['openedby'] = 'integer';
@@ -37,6 +39,7 @@ class InnoworkTicket extends InnoworkItem
         $this->mSearchResultKeys[] = 'title';
         $this->mSearchResultKeys[] = 'projectid';
         $this->mSearchResultKeys[] = 'customerid';
+        $this->mSearchResultKeys[] = 'typeid';
         $this->mSearchResultKeys[] = 'statusid';
         $this->mSearchResultKeys[] = 'priorityid';
         $this->mSearchResultKeys[] = 'sourceid';
@@ -50,6 +53,7 @@ class InnoworkTicket extends InnoworkItem
         $this->mViewableSearchResultKeys[] = 'title';
         $this->mViewableSearchResultKeys[] = 'projectid';
         $this->mViewableSearchResultKeys[] = 'customerid';
+        $this->mViewableSearchResultKeys[] = 'typeid';
         $this->mViewableSearchResultKeys[] = 'statusid';
         $this->mViewableSearchResultKeys[] = 'priorityid';
         $this->mViewableSearchResultKeys[] = 'sourceid';
@@ -109,6 +113,10 @@ class InnoworkTicket extends InnoworkItem
                 or !strlen( $params['channelid'] )
                 ) $params['channelid'] = '0';
 
+            if (!isset($params['typeid']) or !strlen($params['typeid'])) {
+            	$params['typeid'] = '0';
+            }
+            
             if (!isset($params['openedby']) or !strlen($params['openedby'])) {
             	$params['openedby'] = '0';
             }
@@ -160,6 +168,7 @@ class InnoworkTicket extends InnoworkItem
                 case 'priorityid':
                 case 'sourceid':
                 case 'channelid':
+                case 'typeid':
                 case 'openedby':
                 case 'assignedto':
                     if ( !strlen( $key ) ) $key = 0;
@@ -233,6 +242,7 @@ class InnoworkTicket extends InnoworkItem
                         case 'priorityid':
                         case 'sourceid':
                         case 'channelid':
+                        case 'typeid':
                 		case 'openedby':
                 		case 'assignedto':
                         	if ( !strlen( $value ) ) $value = 0;

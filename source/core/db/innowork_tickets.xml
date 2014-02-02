@@ -19,6 +19,7 @@
         <!-- field name="reserved" type="boolean"/-->
         <field  name="openedby"  type="integer"/>
         <field  name="assignedto"  type="integer"/>
+        <field  name="typeid" type="integer"/>
         <key    field="id"  type="unique"/>
     </table>
 
