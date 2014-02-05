@@ -1266,7 +1266,7 @@ $this->toolbars['mail'] = array(
             $done_label = 'archive_ticket.button';
         }
     
-        $headers[0]['label'] = sprintf($this->localeCatalog->getStr('showticket.header'), $ticket_data['id']).' - '.$ticket_data['title'];
+        $headers[0]['label'] = sprintf($this->localeCatalog->getStr('showticket.header'), $ticket_data['id']).(strlen($ticket_data['title']) ? ' - '.$ticket_data['title'] : '');
     
         $this->xml =
         '
