@@ -1164,14 +1164,22 @@ $this->toolbars['mail'] = array(
     
         // Projects list
     
+        $projects_search_conditions = array('customerid' => $ticket_data['customerid']);
+        
+        // If this is a new ticket or a ticket without project, do not show archived projects
+        if ($ticket_data['projectid'] == '' or $ticket_data['projectid'] == 0) {
+            $projects_search_conditions['done'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess()->fmtfalse;
+        }
+        
         $innowork_projects = new InnoworkProject(
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
         );
-        $search_results = $innowork_projects->Search(
-            array('customerid' => $ticket_data['customerid']),
+        $search_results = $innowork_projects->search(
+            $projects_search_conditions,
             \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId()
         );
+        unset($projects_search_conditions);
     
         $projects['0'] = $this->localeCatalog->getStr('noproject.label');
     
