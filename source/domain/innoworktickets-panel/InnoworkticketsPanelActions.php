@@ -36,7 +36,10 @@ class InnoworkticketsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
     		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess()
     	);
-    
+
+        $eventData['openedby'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId();
+        $eventData['assignedto'] = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId();
+
     	if ($ticket->Create($eventData)) {
     		$GLOBALS['innowork-tickets']['newticketid'] = $ticket->mItemId;
     		$this->status = $this->localeCatalog->getStr('ticket_created.status');
@@ -47,17 +50,17 @@ class InnoworkticketsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     	$this->setChanged();
     	$this->notifyObservers('status');
     }
-    
+
     public function executeEditticket($eventData)
     {
     	require_once('innowork/tickets/InnoworkTicket.php');
-    	
+
     	$ticket = new InnoworkTicket(
     		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
     		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
     		$eventData['id']
     	);
-    
+
     	if ($ticket->Edit($eventData)) {
     		$this->status = $this->localeCatalog->getStr('ticket_updated.status');
     	} else {
@@ -67,37 +70,37 @@ class InnoworkticketsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     	$this->setChanged();
     	$this->notifyObservers('status');
     }
-    
+
     public function executeTrashticket($eventData)
     {
     	require_once('innowork/tickets/InnoworkTicket.php');
-    	
+
     	$ticket = new InnoworkTicket(
     		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
     		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
     		$eventData['id']
     	);
-    
+
     	if ($ticket->trash(\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId())) {
     		$this->status = $this->localeCatalog->getStr('ticket_trashed.status');
     	} else {
     		$this->status = $this->localeCatalog->getStr('ticket_not_trashed.status');
     	}
-    	
+
     	$this->setChanged();
     	$this->notifyObservers('status');
     }
-    
+
     public function executeNewmessage($eventData)
     {
     	require_once('innowork/tickets/InnoworkTicket.php');
-    	
+
     	$ticket = new InnoworkTicket(
     		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
     		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
     		$eventData['ticketid']
     	);
-    
+
     	if ($ticket->addMessage(
     		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserName(),
     		$eventData['content'])
@@ -110,24 +113,24 @@ class InnoworkticketsPanelActions extends \Innomatic\Desktop\Panel\PanelActions
     	$this->setChanged();
     	$this->notifyObservers('status');
     }
-    
+
     public function executeRemovemessage($eventData)
     {
     	require_once('innowork/tickets/InnoworkTicket.php');
-    	
+
     	$ticket = new InnoworkTicket(
     		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getDataAccess(),
     		\Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentDomain()->getDataAccess(),
     		$eventData['ticketid']
     	);
-    
+
     	if ($ticket->removeMessage($eventData['messageid'])) $this->status = $this->localeCatalog->getStr('message_removed.status');
     	else $this->status = $this->localeCatalog->getStr('message_not_removed.status');
 
     	$this->setChanged();
     	$this->notifyObservers('status');
     }
-    
+
     public function executeErasefilter($eventData) {
     	$filter_sk = new WuiSessionKey('customer_filter', array('value' => ''));
     	$filter_sk = new WuiSessionKey('project_filter', array('value' => ''));

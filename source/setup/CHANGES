@@ -3,6 +3,8 @@
 CHANGES:
 - No more shows archived projects in new tickets or tickets without a set
   project. (Alex Pagnoni)
+- Opened by and assigned to fields are automatically set to the current user
+  when creating a new ticket. (Alex Pagnoni)
 
 FIXES:
 - Fixed tickets with empty title bug. (Alex Pagnoni)
