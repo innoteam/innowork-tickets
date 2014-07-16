@@ -52,7 +52,7 @@
             file="innoworkticketsprefs.php" category="preferences"
             themeicon="plan" themeicontype="apps"
             catalog="innowork-tickets::innoworktickets_misc" />
-            
+
 		<domaintable name="innowork_tickets"
 			file="innowork_tickets.xml" />
 		<domaintable name="innowork_tickets_messages"
@@ -77,7 +77,7 @@
             file="InnoworkMyTicketsDashboardWidget.php"
             catalog="innowork-tickets::innoworktickets_dashboard"
             title="mytickets"
-            class="\\Shared\\Dashboard\\InnoworkMyTicketsDashboardWidget" />
-            
+            class="\Shared\Dashboard\InnoworkMyTicketsDashboardWidget" />
+
 	</components>
 </application>
