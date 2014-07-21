@@ -97,18 +97,6 @@ class InnoworkMyTicketsDashboardWidget extends \Innomatic\Desktop\Dashboard\Dash
 
         $xml .= '<horizgroup><args><width>0%</width></args><children>';
 
-        if (count($search_result) > 0) {
-        	$xml .= '  <button>
-    <args>
-      <horiz>true</horiz>
-      <frame>false</frame>
-      <themeimage>zoom</themeimage>
-      <label>'.$locale_catalog->getStr('show_all_my_tickets.button').'</label>
-      <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('innoworktickets', array(array('view', 'default', array('filter' => 'true', 'filter_assignedto' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId()))))).'</action>
-    </args>
-  </button>';
-        }
-
         $xml .= '
   <button>
     <args>
@@ -120,6 +108,18 @@ class InnoworkMyTicketsDashboardWidget extends \Innomatic\Desktop\Dashboard\Dash
       <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('innoworktickets', array(array('view', 'newticket', array())))).'</action>
     </args>
   </button>';
+
+        if (count($search_result) > 0) {
+        	$xml .= '  <button>
+    <args>
+      <horiz>true</horiz>
+      <frame>false</frame>
+      <themeimage>zoom</themeimage>
+      <label>'.$locale_catalog->getStr('show_all_my_tickets.button').'</label>
+      <action>'.WuiXml::cdata(\Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString('innoworktickets', array(array('view', 'default', array('filter' => 'true', 'filter_assignedto' => \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer')->getCurrentUser()->getUserId()))))).'</action>
+    </args>
+  </button>';
+        }
 
   $xml .= '</children></horizgroup>
 
