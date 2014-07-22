@@ -5,6 +5,7 @@ CHANGES:
   project. (Alex Pagnoni)
 - Opened by and assigned to fields are automatically set to the current user
   when creating a new ticket. (Alex Pagnoni)
+- Added project as item parent type. (Alex Pagnoni)
 
 FIXES:
 - Fixed tickets with empty title bug. (Alex Pagnoni)
