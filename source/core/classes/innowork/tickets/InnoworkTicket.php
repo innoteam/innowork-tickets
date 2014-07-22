@@ -9,7 +9,6 @@ class InnoworkTicket extends InnoworkItem
     public $mNewEvent = 'newticket';
     public $mNoTrash = false;
     public $mConvertible = true;
-    public $mNoAcl = true;
     public $mTypeTags = array('task', 'ticket');
     public $mParentType = 'project';
     public $mParentIdField = 'projectid';
