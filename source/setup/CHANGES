@@ -9,9 +9,10 @@ CHANGES:
 
 FIXES:
 - Fixed tickets with empty title bug. (Alex Pagnoni)
+- Fixed wrong no ACL policy. (Alex Pagnoni)
 
 
- 
+
 1.5.0 - 2014/02/02
 ------------------
 NEW FEATURES:
