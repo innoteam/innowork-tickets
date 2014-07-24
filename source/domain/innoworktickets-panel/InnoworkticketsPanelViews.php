@@ -1601,6 +1601,7 @@ $this->toolbars['mail'] = array(
                 <themeimage>trash</themeimage>
                 <label>'.$this->localeCatalog->getStr('trash_ticket.button').'</label>
                 <frame>false</frame>
+                <dangeraction>true</dangeraction>
                 <horiz>true</horiz>
                 <action>'.WuiXml::cdata(
                             \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
