@@ -9,8 +9,9 @@ class InnoworkTicket extends InnoworkItem
     public $mNewEvent = 'newticket';
     public $mNoTrash = false;
     public $mConvertible = true;
-    public $mNoAcl = true;
     public $mTypeTags = array('task', 'ticket');
+    public $mParentType = 'project';
+    public $mParentIdField = 'projectid';
     const ITEM_TYPE = 'ticket';
 
     //var $mNoAcl = true;
@@ -33,8 +34,8 @@ class InnoworkTicket extends InnoworkItem
         $this->mKeys['typeid'] = 'table:innowork_tickets_fields_values:fieldvalue:integer';
         $this->mKeys['creationdate'] = 'timestamp';
         $this->mKeys['done'] = 'boolean';
-        $this->mKeys['openedby'] = 'integer';
-        $this->mKeys['assignedto'] = 'integer';
+        $this->mKeys['openedby'] = 'userid';
+        $this->mKeys['assignedto'] = 'userid';
 
         $this->mSearchResultKeys[] = 'title';
         $this->mSearchResultKeys[] = 'projectid';
@@ -48,7 +49,7 @@ class InnoworkTicket extends InnoworkItem
         $this->mSearchResultKeys[] = 'done';
         $this->mSearchResultKeys[] = 'openedby';
         $this->mSearchResultKeys[] = 'assignedto';
-        
+
         $this->mViewableSearchResultKeys[] = 'id';
         $this->mViewableSearchResultKeys[] = 'title';
         $this->mViewableSearchResultKeys[] = 'projectid';
@@ -116,15 +117,15 @@ class InnoworkTicket extends InnoworkItem
             if (!isset($params['typeid']) or !strlen($params['typeid'])) {
             	$params['typeid'] = '0';
             }
-            
+
             if (!isset($params['openedby']) or !strlen($params['openedby'])) {
             	$params['openedby'] = '0';
             }
-            
+
             if (!isset($params['assignedto']) or !strlen($params['assignedto'])) {
             	$params['assignedto'] = '0';
             }
-                        
+
         if (count($params)) {
             $item_id = $this->mrDomainDA->getNextSequenceValue( $this->mTable.'_id_seq' );
 

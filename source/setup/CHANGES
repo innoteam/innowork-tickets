@@ -1,3 +1,22 @@
+1.5.1 - 2014/09/02
+------------------
+CHANGES:
+- No more shows archived projects in new tickets or tickets without a set
+  project. (Alex Pagnoni)
+- Opened by and assigned to fields are automatically set to the current user
+  when creating a new ticket. (Alex Pagnoni)
+- Added project as item parent type. (Alex Pagnoni)
+
+FIXES:
+- Fixed tickets with empty title bug. (Alex Pagnoni)
+- Fixed wrong no ACL policy. (Alex Pagnoni)
+- Fixed missing labels in items search results. (Alex Pagnoni)
+- Fixed missing relations in assignedto and openedby fields. (Alex Pagnoni)
+- Fixed wrong panel name in dashboard widget that led the widget to be always
+  visible. (Alex Pagnoni)
+
+
+
 1.5.0 - 2014/02/02
 ------------------
 NEW FEATURES:
