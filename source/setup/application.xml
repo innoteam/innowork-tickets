@@ -73,7 +73,7 @@
 
         <dashboardwidget
             name="innoworkmytickets"
-            panel="tickets"
+            panel="innoworktickets"
             file="InnoworkMyTicketsDashboardWidget.php"
             catalog="innowork-tickets::innoworktickets_dashboard"
             title="mytickets"
