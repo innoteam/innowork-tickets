@@ -1,3 +1,11 @@
+x.x.x
+------------------
+CHANGES:
+- Added updating the list of projects to select a costumer in 
+  InnoworkprojectsPanel. (Amanda Accalai)
+
+
+
 1.5.1 - 2014/09/02
 ------------------
 CHANGES:
