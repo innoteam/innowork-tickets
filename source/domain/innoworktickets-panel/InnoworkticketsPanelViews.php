@@ -144,40 +144,46 @@ class InnoworkticketsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             $customer_filter_sk = new WuiSessionKey(
                 'customer_filter', array('value' => $eventData['filter_customerid'])
             );
-
-            if ($eventData['filter_customerid'] != 0) $search_keys['customerid'] = $eventData['filter_customerid'];
+            if ($eventData['filter_customerid'] != 0) {
+                $search_keys['customerid'] = $eventData['filter_customerid'];
+            }
 
             // Project
             $project_filter_sk = new WuiSessionKey(
                 'project_filter', array('value' => $eventData['filter_projectid'])
             );
-
-            if ($eventData['filter_projectid'] != 0) $search_keys['projectid'] = $eventData['filter_projectid'];
+            if ($eventData['filter_projectid'] != 0) {
+                $search_keys['projectid'] = $eventData['filter_projectid'];
+            }
 
             // Priority
             $priority_filter_sk = new WuiSessionKey(
                 'priority_filter', array('value' => $eventData['filter_priorityid'])
             );
-
-            if ($eventData['filter_priorityid'] != 0) $search_keys['priorityid'] = $eventData['filter_priorityid'];
+            if ($eventData['filter_priorityid'] != 0) {
+                $search_keys['priorityid'] = $eventData['filter_priorityid'];
+            }
 
             // Status
             $status_filter_sk = new WuiSessionKey(
                 'status_filter', array('value' => $eventData['filter_statusid'])
             );
-
-            if ($eventData['filter_statusid'] != 0) $search_keys['statusid'] = $eventData['filter_statusid'];
+            if ($eventData['filter_statusid'] != 0) {
+                $search_keys['statusid'] = $eventData['filter_statusid'];
+            }
 
             // Source
             $source_filter_sk = new WuiSessionKey(
                 'source_filter', array('value' => $eventData['filter_sourceid'])
             );
-
-            if ($eventData['filter_sourceid'] != 0) $search_keys['sourceid'] = $eventData['filter_sourceid'];
+            if ($eventData['filter_sourceid'] != 0) {
+                $search_keys['sourceid'] = $eventData['filter_sourceid'];
+            }
 
             // Type
-            $type_filter_sk = new WuiSessionKey('type_filter', array('value' => $eventData['filter_typeid']));
-
+            $type_filter_sk = new WuiSessionKey(
+                'type_filter', array('value' => $eventData['filter_typeid'])
+            );
             if ($eventData['filter_typeid'] != 0) {
                 $search_keys['typeid'] = $eventData['filter_typeid'];
             }
@@ -186,41 +192,48 @@ class InnoworkticketsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
             $channel_filter_sk = new WuiSessionKey(
                 'channel_filter', array('value' => $eventData['filter_channelid'])
             );
-
-            if ($eventData['filter_channelid'] != 0) $search_keys['channelid'] = $eventData['filter_channelid'];
+            if ($eventData['filter_channelid'] != 0) {
+                $search_keys['channelid'] = $eventData['filter_channelid'];
+            }
 
             // Year
-            if (isset($eventData['filter_year'])) $_filter_year = $eventData['filter_year'];
-
+            if (isset($eventData['filter_year'])) {
+                $_filter_year = $eventData['filter_year'];
+            }
             $year_filter_sk = new WuiSessionKey(
                 'year_filter', array('value' => isset($eventData['filter_year']) ? $eventData['filter_year'] : '')
             );
 
             // Month
             if (isset($eventData['filter_month'])) $_filter_month = $eventData['filter_month'];
-
             $month_filter_sk = new WuiSessionKey(
                 'month_filter', array('value' => isset($eventData['filter_month']) ? $eventData['filter_month'] : '')
             );
 
             // Day
             if (isset($eventData['filter_day'])) $_filter_day = $eventData['filter_day'];
-
             $day_filter_sk = new WuiSessionKey(
                 'day_filter', array('value' => isset($eventData['filter_day']) ? $eventData['filter_day'] : '')
             );
 
             // Opened by
-            $openedby_filter_sk = new WuiSessionKey('openedby_filter', array('value' => isset($eventData['filter_openedby']) ? $eventData['filter_openedby'] : ''));
+            $openedby_filter_sk = new WuiSessionKey(
+                'openedby_filter', 
+                array('value' => isset($eventData['filter_openedby']) ? $eventData['filter_openedby'] : '')
+            );
             if ($eventData['filter_openedby'] != 0) {
                 $search_keys['openedby'] = $eventData['filter_openedby'];
             }
 
             // Assigned to
-            $assignedto_filter_sk = new WuiSessionKey('assignedto_filter', array('value' => isset($eventData['filter_assignedto']) ? $eventData['filter_assignedto'] : ''));
+            $assignedto_filter_sk = new WuiSessionKey(
+                'assignedto_filter', 
+                array('value' => isset($eventData['filter_assignedto']) ? $eventData['filter_assignedto'] : '')
+            );
             if ($eventData['filter_assignedto'] != 0) {
                 $search_keys['assignedto'] = $eventData['filter_assignedto'];
             }
+
         } else {
             // Customer
             $customer_filter_sk = new WuiSessionKey('customer_filter');
@@ -294,10 +307,16 @@ class InnoworkticketsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
 
             // Opened by
             $openedby_filter_sk = new WuiSessionKey('openedby_filter');
+            if (strlen($openedby_filter_sk->mValue) and $openedby_filter_sk->mValue != 0) {
+                $search_keys['openedby'] = $openedby_filter_sk->mValue;
+            } 
             $eventData['filter_openedby'] = $openedby_filter_sk->mValue;
 
             // Assigned to
             $assignedto_filter_sk = new WuiSessionKey('assignedto_filter');
+            if (strlen($assignedto_filter_sk->mValue) and $assignedto_filter_sk->mValue != 0) {
+                $search_keys['assignedto'] = $assignedto_filter_sk->mValue;
+            } 
             $eventData['filter_assignedto'] = $assignedto_filter_sk->mValue;
         }
 
@@ -534,7 +553,7 @@ class InnoworkticketsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                         <action>'
                         .WuiXml::cdata(
                             \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
-                                '', array(array('view', 'default', array('filter' => 'true')))
+                                '', array(array('view', 'default', array('filter' => 'true', 'pagenumber' => '1')))
                             )
                         ).'</action>
                       </args>
@@ -552,7 +571,7 @@ class InnoworkticketsPanelViews extends \Innomatic\Desktop\Panel\PanelViews
                             \Innomatic\Wui\Dispatch\WuiEventsCall::buildEventsCallString(
                                 '', 
                                 array(
-                                    array('view', 'default', array()),
+                                    array('view', 'default', array('pagenumber' => '1')),
                                     array('action', 'erasefilter', array())
                                 )
                             )

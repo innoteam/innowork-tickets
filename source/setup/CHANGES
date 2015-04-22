@@ -4,6 +4,8 @@ CHANGES:
 - Added updating the list of projects to select a costumer in 
   InnoworkprojectsPanel. (Amanda Accalai)
 
+FIXES:
+- Fixed the loss of parameters in the search of the tickets. (Amanda Accalai)
 
 
 1.5.1 - 2014/09/02
